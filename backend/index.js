@@ -1,25 +1,37 @@
 const express = require('express');
 const sequelize = require('sequelize');
-const { Sequelize } = require('sequelize');
+const models = require('./models/models');
+
+const database = require('./database');
 
 const app = express();
 const port = 8000;
+
+//sdaf sdf asdf
+
 
 app.use(require('body-parser').urlencoded({ extended: true }));
 app.use(express.json());
 app.get("/", express.static("../frontend"))
 
-const db_name = 'copiuta';
-const db_user_name = 'root';
-const db_password = 'root';
-
-const database = new Sequelize(db_name, db_user_name, db_password, {
-    host: 'localhost',
-    dialect: 'mysql'
-});
-
-
-// to do
-
+app.get("/api/sync", (req, res) => { 
+    database.sync({ force: true })
+    .then(() => res.status(201).send("Sincronizare reusita cu baza de date!") )
+    .catch((error) => res.status(500).send(`Sincronizare nereusita. ${error}`) ); 
+}); 
+app.get("/api/weird-sync", (req, res) => {
+    database.query('SET FOREIGN_KEY_CHECKS = 0')
+    .then(() => {
+        database.sync({
+            force: true
+        }).then(() => {
+            database.query('SET FOREIGN_KEY_CHECKS = 1')
+            res.status(201).send("Sincronizare reusita cu baza de date!")
+        }).catch((error) => {
+            console.log(error)
+            res.status(500).send(`Sincronizare nereusita. ${0}`, error)
+        });
+    });
+}); 
 
 app.listen(port, () => console.log(`Now listening on ${port}`));
