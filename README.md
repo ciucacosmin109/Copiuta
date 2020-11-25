@@ -1,6 +1,6 @@
 # Descriere
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Planificarea studentilor nu este intotdeauna una perfecta, avand in vedere volumul de informatii pe care ei sunt nevoiti sa le acumuleze in decursul unui semestru universitar. Aceasta este o aplicatie utilizata de studenti pentru ***gestionarea notitelor*** luate in cadrul orelor de curs si seminar, vizand atat fiecare materie in parte cat si orele dedicate studiului individual. Astfel, notitele sunt prezentate intr-o maniera organizata si pot fi accesate de catre studenti la nevoie, in format electronic.
 
 # Mod de functionare
