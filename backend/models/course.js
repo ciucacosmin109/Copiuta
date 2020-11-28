@@ -1,31 +1,19 @@
-const sequelize = require('sequelize');
-const database = require('../database');
-
-const Student = require('./student');
-
-const Course = database.define('Course',{
-    CourseId:{
-        allowNull:false,
-        type:sequelize.UUID,
-        defaultValue:sequelize.UUIDV4,
-        primaryKey:true
-    },
-    StudentId:{
-        allowNull:false,
-        type:sequelize.UUID,
-        references:{
-            model: Student,
-            key: 'StudentId'
-        }
-    },
-    Name:{
-        allowNull:false,
-        type:sequelize.STRING
-    },
-    Description:{
-        allowNull:false,
-        type:sequelize.TEXT
-    } 
-});
-
-module.exports = Course;
+// database e de tip Sequlize
+// dataTypes e de tip sequlize
+module.exports = (database, dataTypes) => {
+    return database.define('Course', {
+        id:{
+            allowNull:false,
+            type:dataTypes.UUID,
+            defaultValue:dataTypes.UUIDV4,
+            primaryKey:true
+        }, 
+        name:{
+            allowNull:false,
+            type:dataTypes.STRING
+        },
+        description:{ 
+            type:dataTypes.TEXT
+        } 
+    });
+};

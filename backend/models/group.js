@@ -1,22 +1,19 @@
-const sequelize = require('sequelize');
-const database = require('../database'); 
-  
-const Group = database.define('Group',{
-    GroupId:{
-        allowNull:false,
-        type:sequelize.UUID,
-        defaultValue:sequelize.UUIDV4,
-        primaryKey:true
-    },
-    Name:
-    {
-        allowNull:false,
-        type:sequelize.STRING
-    },
-    Description:{
-        allowNull:false,
-        type:sequelize.TEXT
-    } 
-})
-
-module.exports = Group;
+module.exports = (database, dataTypes) => {
+    return database.define('Group',{
+        id:{
+            allowNull:false,
+            type:dataTypes.UUID,
+            defaultValue:dataTypes.UUIDV4,
+            primaryKey:true
+        },
+        name:
+        {
+            allowNull:false,
+            type:dataTypes.STRING
+        },
+        description:{
+            allowNull:false,
+            type:dataTypes.TEXT
+        } 
+    });
+}; 

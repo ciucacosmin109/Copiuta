@@ -1,19 +1,17 @@
-const express = require('express');
-const sequelize = require('sequelize');
-const models = require('./models/models');
-
-const database = require('./database');
+const express = require('express');  
+const { database, models } = require('./database');
 
 const app = express();
 const port = 8000;
-
-//sdaf sdf asdf
-
-
+ 
 app.use(require('body-parser').urlencoded({ extended: true }));
 app.use(express.json());
 app.get("/", express.static("../frontend"))
 
+// Api routes
+// ...
+
+// Api sync
 app.get("/api/sync", (req, res) => { 
     database.sync({ force: true })
     .then(() => res.status(201).send("Sincronizare reusita cu baza de date!") )
