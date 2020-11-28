@@ -1,5 +1,6 @@
 const express = require('express');  
 const { database, models } = require('./database');
+const router = require('./routes');
 
 const app = express();
 const port = 8000;
@@ -7,9 +8,6 @@ const port = 8000;
 app.use(require('body-parser').urlencoded({ extended: true }));
 app.use(express.json());
 app.get("/", express.static("../frontend"))
-
-// Api routes
-// ...
 
 // Api sync
 app.get("/api/sync", (req, res) => { 
@@ -31,5 +29,8 @@ app.get("/api/weird-sync", (req, res) => {
         });
     });
 }); 
+
+// Api routes
+app.use("/", router);
 
 app.listen(port, () => console.log(`Now listening on ${port}`));
