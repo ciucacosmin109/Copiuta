@@ -1,4 +1,4 @@
-const { database, models } = require("../../database");
+const { database, models } = require("../database");
 
 const getAllGroups = async (req, res) => {};
 const getGroup = async (req, res) => {};
