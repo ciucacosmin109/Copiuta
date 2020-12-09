@@ -20,6 +20,10 @@ module.exports = (database, dataTypes) => {
             validate: {
                 isEmail: true
             }
+        }, 
+        password:{
+            allowNull:false,
+            type:dataTypes.STRING
         }
     });
 };

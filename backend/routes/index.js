@@ -4,21 +4,16 @@ const bodyParser = require("body-parser"); //const jsonParser = bodyParser.json(
 const router = express.Router();
 
 // Include the route functions
+const loginRoute = require("./login-route");
 const studentRoute = require("./student-route");
 const linkRoute = require("./link-route");
 const groupRoute = require("./group-route");
 
-// // Allowed URLs without login
-// const allowedUrls = ["/login", "/register"]; 
-// // Login middleware
-// router.use((req, res, next) => {
-//     if ( !req.session.userId && !allowedUrls.includes(req.originalUrl) ) {
-//         res.status(403).send({message: "You don't have access here. Please log in"});
-//     }else {
-//         next();
-//     }
-//      /// .... TO DO
-// });
+// Login middleware and routes
+router.use(loginRoute.loginChecker); 
+router.post("/api/login", loginRoute.login);
+router.post("/api/logout", loginRoute.logout);
+router.post("/api/register", studentRoute.addStudent);
 
 // Define the routes
 router.get("/api/student/getAll", studentRoute.getAllStudents);
