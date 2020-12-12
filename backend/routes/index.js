@@ -8,6 +8,8 @@ const loginRoute = require("./login-route");
 const studentRoute = require("./student-route");
 const linkRoute = require("./link-route");
 const groupRoute = require("./group-route");
+const courseRoute = require("./course-route");
+const tagRoute = require("./tag-route");
 
 // Login middleware and routes
 router.use(loginRoute.loginChecker); 
