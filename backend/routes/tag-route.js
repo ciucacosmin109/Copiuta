@@ -1,60 +1,42 @@
 const { models } = require("../database");
 
-const getAllCourses = async (req, res) => {
+const getAllTags = async (req, res) => {
   try {
 
-    const courses = await models.Course.findAll({
-        where: { StudentId: req.params.studentId },
+    const tags = await models.Tag.findAll({
+        where: { NoteId: req.params.noteId },
     });
 
-    res.status(200).send({result: courses});
+    res.status(200).send({result: tags});
 
   }catch (err) {
     res.status(500).send({message: err.message});
   }
 };
 
-const getCourse = async (req, res) => {
+const getTag = async (req, res) => {
   try { 
-    const course = await models.Course.findOne({
+    const tag = await models.Tag.findOne({
       where: { id: req.params.id },
     });
 
-    res.status(200).send({result: course});
+    res.status(200).send({result: tag});
 
   } catch (err) {
     res.status(500).send({message: err.message});
   }
 };
 
-const getCourseWithNotes = async (req, res)=> {
-  try {
-      const courses = await Course.findAll({
-          include: 
-          [
-              {
-                  model: Note,
-                  attributes: ["name", "id"]
-              }
-          ]
-      });
-      return courses;
-
-  } catch (err) {
-      throw new Error(err.message);
-  }
-};
-
-const addCourse = async (req, res) => { 
+const addTag = async (req, res) => { 
   try { 
-    const course = req.body;
-    const result = await models.Course.create(course); 
+    const tag = req.body;
+    const result = await models.Tag.create(tag); 
 
     if (result) {
-      res.status(201).send({ message: "The Course was created", newId: result.id});
+      res.status(201).send({ message: "The Tag was created", newId: result.id});
 
     }else {
-      res.status(400).send({ message: "Error while creating the Course" });
+      res.status(400).send({ message: "Error while creating the Tag" });
     }
 
   } catch (err) {
@@ -62,17 +44,17 @@ const addCourse = async (req, res) => {
   }
 };
 
-const updateCourse = async (req, res) => {
+const updateTag = async (req, res) => {
   try { 
-    let course = req.body;
-    const result = await models.Course.update(course, {
+    let tag = req.body;
+    const result = await models.Tag.update(tag, {
       where: { id: req.params.id }
     });
     
     if (result) {
-      res.status(201).send({ message: "The Course was updated"});
+      res.status(201).send({ message: "The Tag was updated"});
     }else {
-      res.status(400).send({ message: "Error while updating the Course" });
+      res.status(400).send({ message: "Error while updating the Tag" });
     }
 
   } catch (err) {
@@ -80,21 +62,17 @@ const updateCourse = async (req, res) => {
   }
 };
 
-const deleteCourse = async (req, res) => {
+const deleteTag = async (req, res) => {
   try {
-
-    const resultNote = await models.note.destroy({
-      where: { CourseId: req.params.id }
-    })
-
-    const resultCourse = await models.course.destroy({
+ 
+    const resultTag = await models.tag.destroy({
       where: { id: req.params.id }
     })
     
-    if(resultNote && resultCourse){
-      res.status(200).send({ message: "The Course was deleted"});
+    if(resultTag){
+      res.status(200).send({ message: "The Tag was deleted"});
     }else {
-      res.status(400).send({ message: "Error while deleting the Course" });
+      res.status(400).send({ message: "Error while deleting the Tag" });
     }
 
   } catch (err) {
@@ -102,4 +80,4 @@ const deleteCourse = async (req, res) => {
   }
 };
 
-module.exports = { getAllCourses, getCourse, getCourseWithNotes, addCourse, updateCourse, deleteCourse };
+module.exports = { getAllTags, getTag, addTag, updateTag, deleteTag };
