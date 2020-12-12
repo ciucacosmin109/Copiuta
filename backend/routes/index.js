@@ -34,4 +34,17 @@ router.post("/api/group/add", groupRoute.addGroup);
 router.put("/api/group/update/:id", groupRoute.updateGroup);
 router.delete("/api/group/delete/:id", groupRoute.deleteGroup);
 
+router.get("/api/course/getAll", groupRoute.getAllCourses);
+router.get("/api/course/get/:id", groupRoute.getCourse);
+router.get("/api/course/notes", groupRoute.getCourseWithNotes);
+router.post("/api/course/add", groupRoute.addCourse);
+router.put("/api/course/update/:id", groupRoute.updateCourse);
+router.delete("/api/course/delete/:id", groupRoute.deleteCourse);
+
+router.get("/api/tag/getAll", groupRoute.getAllTags);
+router.get("/api/tag/get/:id", groupRoute.getTag);
+router.post("/api/tag/add", groupRoute.addTag);
+router.put("/api/tag/update/:id", groupRoute.updateTag);
+router.delete("/api/tag/delete/:id", groupRoute.deleteTag);
+
 module.exports = router;
