@@ -10,9 +10,10 @@ const linkRoute = require("./link-route");
 const groupRoute = require("./group-route");
 const courseRoute = require("./course-route");
 const tagRoute = require("./tag-route");
+const noteRoute = require("./note-route");
 
 // Login middleware and routes
-router.use(loginRoute.loginChecker); 
+router.use(loginRoute.loginChecker);
 router.post("/api/login", loginRoute.login);
 router.post("/api/logout", loginRoute.logout);
 router.post("/api/register", studentRoute.addStudent);
@@ -30,11 +31,19 @@ router.post("/api/link/add", linkRoute.addLink); // ....
 router.put("/api/link/update/:id", linkRoute.updateLink);
 router.delete("/api/link/delete/:id", linkRoute.deleteLink);
 
+//=================Group======================
 router.get("/api/group/getAll", groupRoute.getAllGroups);
 router.get("/api/group/get/:id", groupRoute.getGroup);
 router.post("/api/group/add", groupRoute.addGroup);
-router.put("/api/group/update/:id", groupRoute.updateGroup);
-router.delete("/api/group/delete/:id", groupRoute.deleteGroup);
+router.put("/api/group/update/:name", groupRoute.updateGroup);
+router.delete("/api/group/delete/:name", groupRoute.deleteGroup);
+//====================Notes=====================
+router.get("/api/notes/:courseId", noteRoute.getAllNotes);
+router.post("/api/notes/add/:courseId", noteRoute.addNote);
+router.put("/api/note/update/:id", noteRoute.updateNote);
+router.put("/api/update/note/:courseId", noteRoute.updateNoteCourse);
+router.get("/api/notes/getTagAndLinks/:id", noteRoute.getTagsAndLinks);
+router.get("/api/notes/delete/:id", noteRoute.deleteNote);
 
 router.get("/api/course/getAll", courseRoute.getAllCourses);
 router.get("/api/course/get/:id", courseRoute.getCourse);
