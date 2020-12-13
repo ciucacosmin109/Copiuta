@@ -1,8 +1,7 @@
 const { models } = require("../database");
 
 const getAllTags = async (req, res) => {
-  try {
-
+  try { 
     const tags = await models.Tag.findAll({
         where: { NoteId: req.params.noteId },
     });
@@ -29,11 +28,15 @@ const getTag = async (req, res) => {
 
 const addTag = async (req, res) => { 
   try { 
-    const tag = req.body;
-    const result = await models.Tag.create(tag); 
+    let tag = req.body;
+    tag.NoteId = req.params.noteId;
 
+    const result = await models.Tag.create(tag);  
     if (result) {
-      res.status(201).send({ message: "The Tag was created", newId: result.id});
+      res.status(201).send({ 
+        message: "The Tag was created", 
+        newId: result.id
+      });
 
     }else {
       res.status(400).send({ message: "Error while creating the Tag" });

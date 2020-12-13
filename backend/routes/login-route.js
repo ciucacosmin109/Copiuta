@@ -7,8 +7,7 @@ const allowedUrls = ["/api/login", "/api/register"];
 // Middleware
 const loginChecker = (req, res, next) => {
     // l-am lasat dezactivat pana terminam app
-    next();
-    return;
+    next(); return;
 
     if ( !req.session.studId && !allowedUrls.includes(req.originalUrl) ) {
         res.status(403).send({message: "You don't have access here. Please log in"});
@@ -23,19 +22,20 @@ const login = async (req, res) => {
         const stud = req.body;
         
         const found = await models.Student.findOne({ where: { email: stud.email } });
-        if (found) {
+        if (found != null) {
             const validPassword = await bcrypt.compare(stud.password, found.password);
-            if(validPassword)  
-                req.session.studId = found.id;
-            else 
-                req.session.studId = false;
+            if(validPassword){
+                req.session.studId = found.id; 
+                res.status(200).send({ 
+                    studId: found.id
+                });
+                return;
+            }
         }
- 
-        res.status(200).send({
-            success: !!found,
-            studId: found.id,
-            stud: found
+        res.status(400).send({ 
+            message: "Invalid email or password"
         });
+         
     } catch (err) {
         res.status(500).send({
             message: err.message

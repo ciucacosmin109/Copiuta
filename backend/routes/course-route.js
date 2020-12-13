@@ -26,32 +26,17 @@ const getCourse = async (req, res) => {
     res.status(500).send({message: err.message});
   }
 };
-
-const getCourseWithNotes = async (req, res)=> {
-  try {
-      const courses = await Course.findAll({
-          include: 
-          [
-              {
-                  model: Note,
-                  attributes: ["name", "id"]
-              }
-          ]
-      });
-      return courses;
-
-  } catch (err) {
-      throw new Error(err.message);
-  }
-};
-
+ 
 const addCourse = async (req, res) => { 
   try { 
     const course = req.body;
     const result = await models.Course.create(course); 
 
     if (result) {
-      res.status(201).send({ message: "The Course was created", newId: result.id});
+      res.status(201).send({ 
+        message: "The Course was created", 
+        newId: result.id
+      });
 
     }else {
       res.status(400).send({ message: "Error while creating the Course" });
@@ -83,13 +68,24 @@ const updateCourse = async (req, res) => {
 const deleteCourse = async (req, res) => {
   try {
 
-    const resultNote = await models.note.destroy({
+    let attachedNotes = await models.Note.findAll({
       where: { CourseId: req.params.id }
-    })
-
-    const resultCourse = await models.course.destroy({
+    });
+    for(let i =0;i<attachedNotes.length;i++){
+      await models.Tag.destroy({
+        where: { NoteId: attachedNotes[i].id }
+      });
+      await models.Link.destroy({
+        where: { NoteId: attachedNotes[i].id }
+      });
+    }
+    
+    const resultNote = await models.Note.destroy({
+      where: { CourseId: req.params.id }
+    }); 
+    const resultCourse = await models.Course.destroy({
       where: { id: req.params.id }
-    })
+    });
     
     if(resultNote && resultCourse){
       res.status(200).send({ message: "The Course was deleted"});
@@ -102,4 +98,4 @@ const deleteCourse = async (req, res) => {
   }
 };
 
-module.exports = { getAllCourses, getCourse, getCourseWithNotes, addCourse, updateCourse, deleteCourse };
+module.exports = { getAllCourses, getCourse, addCourse, updateCourse, deleteCourse };

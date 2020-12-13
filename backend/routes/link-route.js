@@ -1,16 +1,17 @@
 const { database, models } = require("../database");
 
+// console.log({
+//     headers: req.headers, // autentificare ?
+//     params: req.params, // parametrii cu : din rute (:id de exemplu)
+//     query: req.query, // parametrii aia din URL cu ? si &
+//     body: req.body // body - obiecte json
+// });
+
 const getAllLinks = async (req, res) => {
   try {
-    // console.log({
-    //     headers: req.headers, // autentificare ?
-    //     params: req.params, // parametrii cu : din rute (:id de exemplu)
-    //     query: req.query, // parametrii aia din URL cu ? si &
-    //     body: req.body // body - obiecte json
-    // });
-    const links = await models.Link.findAll(/*{ // am comentat momentan ... pana implementeaza catalina Notitele
+    const links = await models.Link.findAll({
       where: { NoteId: req.params.noteId },
-    }*/);
+    });
 
     res.status(200).send({result: links});
   } catch (err) {
@@ -30,10 +31,14 @@ const getLink = async (req, res) => {
 };
 const addLink = async (req, res) => { 
   try { 
-    const link = req.body;
+    let link = req.body;
+    link.NoteId = req.params.noteId;
     const result = await models.Link.create(link); 
     if (result) {
-      res.status(201).send({ message: "The link was created", newId: result.id});
+      res.status(201).send({ 
+        message: "The link was created", 
+        newId: result.id
+      });
     }else {
       res.status(400).send({ message: "Error while creating the link" });
     }

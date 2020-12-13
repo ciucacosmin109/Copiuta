@@ -1,46 +1,96 @@
+const { Op } = require("sequelize/types");
 const { database, models } = require("../database");
-//=================Vizualizare grupuri========== ||functioneaza
-const getAllGroups = async (req, res) => {
-  try {
-    const group = await models.Group.findAll();
 
-    res.status(200).send({ result: group });
+//=================Vizualizare grupuri - ale unui student ========== ||functioneaza
+const getAllGroupsByStudentId = async (req, res) => {
+  try {
+    const studXGroup = await models.StudentXGroup.findAll({
+        where: {StudentId: req.params.studentId},
+        attributes: ['GroupId']
+    })
+ 
+    const groups = await models.Group.findAll({
+      where:{
+          id: {[Op.or]: studXGroup.map(x => x.GroupId)}
+      }
+    });
+
+    res.status(200).send({ result: groups });
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
 };
 
-const getGroup = async (req, res) => {};
+//=================Vizualizare grupuri - ale unei notite ========== ||functioneaza
+const getAllGroupsByNoteId = async (req, res) => {
+  try {
+    const groupXNote = await models.GroupXNote.findAll({
+        where: {NoteId: req.params.noteId},
+        attributes: ['GroupId']
+    })
+ 
+    const groups = await models.Group.findAll({
+      where:{
+          id: {[Op.or]: groupXNote.map(x => x.GroupId)}
+      }
+    });
+ 
+    res.status(200).send({ result: groups });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
+//=================Vizualizare grupuri========== ||functioneaza
+const getAllGroups = async (req, res) => {
+  try {
+    const groups = await models.Group.findAll();
+
+    res.status(200).send({ result: groups });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
+//=================Vizualizare grup dupa id===== ||functioneaza
+const getGroup = async (req, res) => {
+  try{
+    const group = await models.Group.findOne({
+      where: { id: req.params.id }
+    });
+
+    res.status(200).send({ result: group });
+  }catch(err){
+    res.status(500).send({message: err.message});
+  }
+};
 //=================Adauga grup================== ||functioneaza
 const addGroup = async (req, res) => {
-  const group = req.body;
-  if (group.name) {
+  try{
+    const group = req.body; 
+
     const result = await models.Group.create(group);
     if (result) {
       res.status(201).send({
         message: "Grup creat cu succes",
+        newId: result.id
       });
     } else {
-      res.status(400).send({
-        message: "Ups, eroare la crearea grupului",
-      });
-    }
-  } else {
-    res.status(400).send({
-      message: "Invalid group.",
-    });
+      res.status(400).send({ message: "Ups, eroare la crearea grupului" });
+    } 
+  }catch(err){
+    res.status(500).send({message: err.message});
   }
 };
 //================Modificare grup=============== || functioneaza
-// primeste ca parametru numele grupului, mi se pare mai util ca Id-ul
 const updateGroup = async (req, res) => {
   try {
     let group = req.body;
     const result = await models.Group.update(group, {
-      where: { name: req.params.name },
+      where: { id: req.params.id },
     });
     if (result) {
-      res.status(201).send({ message: "Grupul a fost modificat cu succes." });
+      res.status(200).send({ message: "Grupul a fost modificat cu succes." });
     } else {
       res.status(400).send({ message: "Ups, a aparut o eroare" });
     }
@@ -53,18 +103,16 @@ const updateGroup = async (req, res) => {
 const deleteGroup = async (req, res) => {
   try {
     const result = await models.Group.destroy({
-      where: { name: req.params.name },
+      where: { id: req.params.id },
     });
     if (result) {
       res.status(200).send({ message: "Grupul a fost sters" });
     } else {
-      res
-        .status(400)
-        .send({ message: "Ups, a aparut o eroare la stergerea grupului" });
+      res.status(400).send({ message: "Ups, a aparut o eroare la stergerea grupului" });
     }
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
 };
 
-module.exports = { getAllGroups, getGroup, addGroup, updateGroup, deleteGroup };
+module.exports = { getAllGroupsByStudentId, getAllGroupsByNoteId, getAllGroups, getGroup, addGroup, updateGroup, deleteGroup };
