@@ -1,4 +1,4 @@
-const { Op } = require("sequelize/types");
+const { Op } = require("sequelize");
 const { database, models } = require("../database");
 //===============Vizualizare notite pentru un curs=================
 const getAllNotesByCourseId = async (req, res) => {
@@ -88,12 +88,15 @@ const deleteNote = async (req, res) => {
     const resultLink = await models.Link.destroy({
       where: { NoteId: req.params.id },
     });
+    const resultGXN = await models.GroupXNote.destroy({
+        where: { NoteId: req.params.id }
+    });
 
     const resultNote = await models.Note.destroy({
       where: { id: req.params.id },
     });
 
-    if (resultNote && resultTag && resultLink) {
+    if (resultNote && resultTag && resultGXN && resultLink) {
       res.status(200).send({ message: "The note was deleted" });
     } else {
       res.status(400).send({ message: "Error while deleting the note" });

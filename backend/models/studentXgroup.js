@@ -5,7 +5,11 @@ module.exports = (database, dataTypes) => {
             type:dataTypes.UUID,
             defaultValue:dataTypes.UUIDV4,
             primaryKey:true
-        } 
+        },
+        isAdmin:{
+            type:dataTypes.BOOLEAN,
+            defaultValue: false
+        }
     }, {
         freezeTableName: true
     });

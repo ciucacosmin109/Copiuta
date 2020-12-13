@@ -29,9 +29,10 @@ const getCourse = async (req, res) => {
  
 const addCourse = async (req, res) => { 
   try { 
-    const course = req.body;
-    const result = await models.Course.create(course); 
+    let course = req.body;
+    course.StudentId = req.params.studentId;
 
+    const result = await models.Course.create(course);  
     if (result) {
       res.status(201).send({ 
         message: "The Course was created", 
@@ -77,6 +78,9 @@ const deleteCourse = async (req, res) => {
       });
       await models.Link.destroy({
         where: { NoteId: attachedNotes[i].id }
+      });
+      await models.GroupXNote.destroy({
+          where: { NoteId: attachedNotes[i].id }
       });
     }
     

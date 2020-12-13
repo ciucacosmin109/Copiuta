@@ -18,22 +18,26 @@ module.exports = (database, dataTypes) => {
     const Link = LinkSetup(database, dataTypes);
     const Tag = TagSetup(database, dataTypes); 
  
-    //Definire relatii intre tabele
+    // ====== Definire relatii intre tabele ======= 
+    // Student - Course
     Student.hasMany(Course);
     Course.belongsTo(Student);
     
+    // Course - Note
     Course.hasMany(Note);
     Note.belongsTo(Course);
     
+    // Note - Group
     Note.belongsToMany(Group,{through: GroupXNote});
     Group.belongsToMany(Note,{through: GroupXNote});
 
+    // Student - Group
     Student.belongsToMany(Group,{through: StudentXGroup });
-    Group.belongsToMany(Student,{through: StudentXGroup });
+    Group.belongsToMany(Student,{through: StudentXGroup }); 
 
+    // Note - Link&Tag
     Note.hasMany(Link);
-    Link.belongsTo(Note);
-
+    Link.belongsTo(Note); 
     Note.hasMany(Tag);
     Tag.belongsTo(Note); 
 

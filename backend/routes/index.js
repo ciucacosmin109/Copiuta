@@ -20,29 +20,29 @@ router.post("/api/register", studentRoute.addStudent);
 
 // ================== Define the routes ===================
 // Student
-router.get("/api/group/student/getAll/:groupId", studentRoute.getAllStudentsByGroupId);
+router.get("/api/group/student/getAll/:groupId", studentRoute.getAllStudentsByGroupId);//
 
 router.get("/api/student/getAll", studentRoute.getAllStudents);
 router.get("/api/student/get/:id", studentRoute.getStudent);
 router.post("/api/student/add", studentRoute.addStudent);
 router.put("/api/student/update/:id", studentRoute.updateStudent);
-router.delete("/api/student/delete/:id", studentRoute.deleteStudent);
+router.delete("/api/student/delete/:id", studentRoute.deleteStudent);//
 
 // Course
 router.get("/api/course/getAll/:studentId", courseRoute.getAllCourses);
 router.get("/api/course/get/:id", courseRoute.getCourse); 
 router.post("/api/course/add/:studentId", courseRoute.addCourse);
 router.put("/api/course/update/:id", courseRoute.updateCourse);
-router.delete("/api/course/delete/:id", courseRoute.deleteCourse);
+router.delete("/api/course/delete/:id", courseRoute.deleteCourse);//
 
 // Note 
 router.get("/api/course/note/getAll/:courseId", noteRoute.getAllNotesByCourseId);
-router.get("/api/group/note/getAll/:groupId", noteRoute.getAllNotesByGroupId);
+router.get("/api/group/note/getAll/:groupId", noteRoute.getAllNotesByGroupId);//
 
 router.get("/api/note/get/:id", noteRoute.getNote);
 router.post("/api/note/add/:courseId", noteRoute.addNote);
 router.put("/api/note/update/:id", noteRoute.updateNote);  
-router.delete("/api/note/delete/:id", noteRoute.deleteNote);
+router.delete("/api/note/delete/:id", noteRoute.deleteNote);//
 
 // Links & Tags
 router.get("/api/link/getAll/:noteId", linkRoute.getAllLinks); 
@@ -60,13 +60,11 @@ router.delete("/api/tag/delete/:id", tagRoute.deleteTag);
 // Group
 router.get("/api/student/group/getAll/:studentId", groupRoute.getAllGroupsByStudentId);
 router.get("/api/note/group/getAll/:noteId", groupRoute.getAllGroupsByNoteId);
-
-router.get("/api/group/getAll", groupRoute.getAllGroups);
+ 
 router.get("/api/group/get/:id", groupRoute.getGroup);
-router.post("/api/group/add/:studentId", groupRoute.addGroup);  //.....
+router.post("/api/group/add/:adminId", groupRoute.addGroup);  //.....
 router.put("/api/group/update/:id", groupRoute.updateGroup);
 router.delete("/api/group/delete/:id", groupRoute.deleteGroup);
-
 
 
 module.exports = router;
