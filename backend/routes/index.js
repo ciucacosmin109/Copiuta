@@ -11,6 +11,8 @@ const groupRoute = require("./group-route");
 const courseRoute = require("./course-route");
 const tagRoute = require("./tag-route");
 const noteRoute = require("./note-route");
+const studentXgroupRoute = require("./studentXgroup-route");
+const groupXnoteRoute = require("./groupXnote-route");
 
 // Login middleware and routes
 router.use(loginRoute.loginChecker);
@@ -65,6 +67,14 @@ router.get("/api/group/get/:id", groupRoute.getGroup);
 router.post("/api/group/add/:adminId", groupRoute.addGroup);  //.....
 router.put("/api/group/update/:id", groupRoute.updateGroup);
 router.delete("/api/group/delete/:id", groupRoute.deleteGroup);
+
+// Group - Pentru a adauga stud la grupui sau pt a da share la notite in grupuri
+router.post("/api/studentXgroup/add", studentXgroupRoute.addStudentToGroup); 
+router.put("/api/studentXgroup/modify", studentXgroupRoute.modifyStudentOfGroup); 
+router.delete("/api/studentXgroup/remove", studentXgroupRoute.removeStudentFromGroup); 
+
+router.post("/api/groupXnote/add", groupXnoteRoute.addNoteToGroup); 
+router.delete("/api/groupXnote/remove", groupXnoteRoute.removeNoteFromGroup); 
 
 
 module.exports = router;
