@@ -39,7 +39,7 @@ app.get("/api/sync", (req, res) => {
 # Altele
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Notam utilizarea [React](https://reactjs.org/), biblioteca JavaScript open-source pentru construirea de interfețe de utilizator, pe care o importam cu ajutorul comenzilor "ccc" si "imrc". Deoarece logica componentelor este scrisa in JavaScript si nu foloseste sabloane, datele calitative de tip rich trec cu usurinta prin aplicatie si in afara DOM; scrierea unei functii, spre exemplu, va reflecta mereu starea curenta, fara a fi necesara efectuarea manuala de operatii DOM pentru a reflecta noua stare.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Notam utilizarea [React](https://reactjs.org/), biblioteca JavaScript open-source pentru construirea de interfețe de utilizator, pe care o importam cu ajutorul comenzilor "ccc" si "imrc". Deoarece logica componentelor este scrisa in JavaScript si nu foloseste sabloane, datele calitative de tip rich trec cu usurinta prin aplicatie si in afara [DOM](https://www.w3.org/TR/REC-DOM-Level-1/introduction.html); scrierea unei functii, spre exemplu, va reflecta mereu starea curenta, fara a fi necesara efectuarea manuala de operatii DOM pentru a reflecta noua stare.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In ce priveste rutele concepute, ele au validari legate de logare si sunt implementate in folderul "routes". Ruta din Note primeste ID de course si returneaza toate notitele cursului, asemeni unui grup, iar Tag aduce toate tagurile unei notite (si nu pe cele aferente bazei de date). Fiecare entitate are un fisier ce contine si exporta functiile rutelor. Entitatile de intersectie nu necesita endpointuri.. <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
