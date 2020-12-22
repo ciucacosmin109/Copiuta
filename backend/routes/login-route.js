@@ -6,8 +6,8 @@ const allowedUrls = ["/api/login", "/api/register"];
 
 // Middleware
 const loginChecker = (req, res, next) => {
-    // l-am lasat dezactivat pana terminam app
-    next(); return;
+    // activat/dezactivat
+    //next(); return;
 
     if ( !req.session.studId && !allowedUrls.includes(req.originalUrl) ) {
         res.status(403).send({message: "You don't have access here. Please log in"});
@@ -44,7 +44,7 @@ const login = async (req, res) => {
 }
 const logout = (req, res) => {
     req.session.destroy();
-    res.status(200).send({message: "Successfuly logged out"});
+    res.status(200).send({message: "Successfully logged out"});
 }
 
 module.exports = { loginChecker, login, logout }

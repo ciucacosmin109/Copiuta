@@ -2,13 +2,10 @@ const modelsSetup = require('./models');
 const sequelize = require('sequelize');
 const Sequelize = sequelize.Sequelize;
  
-const db_host = 'localhost';
-const db_name = 'copiuta';
-const db_user_name = 'root';
-const db_password = 'root';
+const config = require('./config.json'); 
 
-const database = new Sequelize(db_name, db_user_name, db_password, {
-    host: db_host,
+const database = new Sequelize(config.database.name, config.database.user, config.database.password, {
+    host: config.database.host,
     dialect: 'mysql'
 });
 const models = modelsSetup(database, sequelize); 

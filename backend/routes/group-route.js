@@ -118,21 +118,6 @@ const deleteGroup = async (req, res) => {
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
-};
-// Altele
-const addStudentToGroup = async (req, res) => {
-  try {
+}; 
 
-  } catch (err) {
-    res.status(500).send({ message: err.message });
-  }
-};
-const addNoteToGroup = async (req, res) => {
-  try {
-
-  } catch (err) {
-    res.status(500).send({ message: err.message });
-  }
-};
-
-module.exports = { getAllGroupsByStudentId, getAllGroupsByNoteId, getGroup, addGroup, updateGroup, deleteGroup };
+module.exports = { getAllGroupsByStudentId, getAllGroupsByNoteId, getGroup, addGroup, updateGroup, deleteGroup};

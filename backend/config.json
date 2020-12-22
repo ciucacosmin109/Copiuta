@@ -1,0 +1,14 @@
+{
+    "cors":{
+        "whitelist": ["http://localhost:3000"],
+        "allowedMethods": ["GET","POST","PUT","DELETE"]
+    },
+	"sessionSecret": "xh6kbmZ0XGOJGJ0ZsQY7KyhtcvCpt7vR",
+	"port": 8000,
+    "database": {
+        "host": "localhost",
+        "name": "copiuta",
+        "user": "root",
+        "password": "root"
+    }
+}
