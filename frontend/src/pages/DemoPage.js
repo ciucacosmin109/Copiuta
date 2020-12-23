@@ -8,15 +8,17 @@ import Login from '../data/Login'
 import Tags from '../data/Tags'
 
 class DemoPage extends React.Component {
-  async componentDidMount(){
+  async componentDidMount(){ 
+    console.log(document.cookie.includes("isLoggedIn"))
     const result = await Login.login("demo@demo.com", "demo"); 
-    if(result.ok === true){
-      console.log(result);
+    //if(result.ok === true){
+      //console.log(result);
       console.log(await Tags.getAllTags()); 
-      console.log(await Login.logout());
-    }else{
+      //console.log(await Login.logout());
+    //}else{
       console.log("Hmmmmmm");
-    }
+    //}
+    
   }
   render() {
     const { match } = this.props; 

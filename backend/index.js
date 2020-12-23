@@ -1,6 +1,7 @@
 const express = require('express'); 
 const session = require('express-session'); 
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser')
 const cors = require("cors");
 
 const { database, models } = require('./database');
@@ -24,8 +25,10 @@ app.use(bodyParser.json());
 app.use(session({
 	secret: config.sessionSecret, 
 	resave: false,
-	saveUninitialized: false
+	saveUninitialized: false,
+    cookie: { secure: false } // Put true if https
 }));
+app.use(cookieParser());
 
 // Hmm
 /*app.use((req,res,next)=>{

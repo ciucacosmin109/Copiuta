@@ -6,5 +6,16 @@ const axiosInstance = axios.create({
     timeout: 20000,
     baseURL: config.backendAddress
 });
+axiosInstance.interceptors.response.use(response => {
+    // Any status code that lie within the range of 2xx cause this function to trigger 
+    return response;
+  }, 
+  error => {
+    // Any status codes that falls outside the range of 2xx cause this function to trigger
+    if(error.response.status === 403){
+        window.location.href = "/login"; 
+    }
+    return Promise.reject(error);
+  });
 
 export default axiosInstance;

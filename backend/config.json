@@ -10,5 +10,8 @@
         "name": "copiuta",
         "user": "root",
         "password": "root"
+    },
+    "login": {
+        "unprotectedUrls": ["/api/login", "/api/logout", "/api/register", "/api/isLoggedIn"]
     }
 }

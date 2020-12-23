@@ -6,7 +6,7 @@ const getAllTags = async (noteId) => {
         return { ok: true, result: res.data.result} 
     }catch(err){ 
         if(err.response.data.message){ 
-            return { ok: true, message: `${err.response.data.message}` }
+            return { ok: false, message: `${err.response.data.message}` }
         }else{
             return { ok: false, message: `Internal server error: ${err.response.status}` }
         }
@@ -19,7 +19,7 @@ const getTag = async (id) => {
         return { ok: true, result: res.data.result} 
     }catch(err){ 
         if(err.response.data.message){ 
-            return { ok: true, message: `${err.response.data.message}` }
+            return { ok: false, message: `${err.response.data.message}` }
         }else{
             return { ok: false, message: `Internal server error: ${err.response.status}` }
         }

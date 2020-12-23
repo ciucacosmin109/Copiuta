@@ -19,22 +19,19 @@ const login = async (email, password) => {
         }
     } 
   
-};
-
+}; 
 const logout = async () => {
     try{
         const res = await axios.post('/logout', {});  
         return { ok: true, message: res.data.message } 
     }catch(err){
-        if(err.response.status === 403){
-            return { ok: true, message: "You are already logged out" }
-        }else if(err.response.data.message){
+        if(err.response.data.message){
             return { ok: false, message: err.response.data.message }
         }else{
-            return { ok: false, message: `${err.response.status}` }
+            return { ok: false, message: `Internal server error: ${err.response.status}` }
         }
     } 
-};
+}; 
 
 const Login = {login, logout};
 export default Login;

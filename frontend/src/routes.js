@@ -3,14 +3,17 @@ import DemoPage from "./pages/DemoPage";
 const routes = [
     {
         path: "/", 
+        private: false,
         component: DemoPage
     },
     {
         path: "/demo", 
+        private: false,
         component: DemoPage
     },
     {
-        path: "/demo2", 
+        path: "/demo2",
+        private: true, 
         component: DemoPage
     },
 ];

@@ -19,6 +19,7 @@ router.use(loginRoute.loginChecker);
 router.post("/api/login", loginRoute.login);
 router.post("/api/logout", loginRoute.logout);
 router.post("/api/register", studentRoute.addStudent);
+router.get("/api/isLoggedIn", loginRoute.isLoggedIn);
 
 // ================== Define the routes ===================
 // Student
