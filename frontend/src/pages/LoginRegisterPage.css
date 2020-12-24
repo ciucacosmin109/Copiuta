@@ -12,7 +12,15 @@
 #Marius .right-button{
     float: right;
 }
+#Marius .disabled-text-button{
+    display: inline-block;
+    color: black;
+    margin: 10px 10px 10px 0px; 
+}
 #Marius .middle-button{ 
     text-align: center;
     width: 100%;
+}
+#Marius .social-login{
+    color: black !important;
 }

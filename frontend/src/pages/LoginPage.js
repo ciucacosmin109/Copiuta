@@ -1,7 +1,9 @@
 import React from 'react';
-import Login from '../data/Login';
+import Login from '../data/Login'; 
+import config from '../config.json' 
 
-import { Form, Button, Spinner, Alert, Card } from 'react-bootstrap';
+import { Form, Button, Spinner, Alert, Card } from 'react-bootstrap'; 
+import { GoogleLogin } from 'react-google-login';
 import './LoginRegisterPage.css';
 //import {urlAfterLogin} from '../data/Axios';
  
@@ -24,7 +26,7 @@ class LoginPage extends React.Component {
         const { name, value } = e.target;
         this.setState({ [name]: value });
     }
-    isEmailValid = (email) => {
+    isEmailValid = email => {
         if(!email){
             return true
         }else if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z.]+$/.test(email)) {
@@ -74,6 +76,24 @@ class LoginPage extends React.Component {
             return { pathname: "/" };
         } 
     } 
+
+    handleGoogleLoginSuccess = googleData => { 
+        this.setState({ loading: true });
+        Login.googleLogin(googleData.tokenId).then(res => {
+            if(res.ok){
+                this.setState({error: null, loading: false}); 
+                this.props.updatePrivateRoutes();
+                 
+                const from = this.getPreviousUrl(); 
+                this.props.history.replace(from); 
+            }else{
+                this.setState({error: res.message, loading: false});
+            } 
+        });
+    }
+    handleGoogleLoginFailure = googleData => {
+        console.log('error',googleData)
+    }
 
     render() { 
         return (
@@ -146,7 +166,14 @@ class LoginPage extends React.Component {
                     </Form>
                 </Card.Body> 
                 <Card.Footer> 
-                    LOGIN WITH GOOGLE HERE
+                    <div className="disabled-text-button">External login</div>
+                    <GoogleLogin className="social-login right-button"
+                        clientId={config.googleLogin.clientId}
+                        buttonText="Log in with @stud.ase.ro"
+                        onSuccess={this.handleGoogleLoginSuccess}
+                        onFailure={this.handleGoogleLoginFailure}
+                        cookiePolicy={'single_host_origin'}
+                    />
                 </Card.Footer>  
             </Card>
             </div>

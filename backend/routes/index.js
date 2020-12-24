@@ -20,6 +20,7 @@ router.post("/api/login", loginRoute.login);
 router.post("/api/logout", loginRoute.logout);
 router.post("/api/register", studentRoute.addStudent);
 router.get("/api/isLoggedIn", loginRoute.isLoggedIn);
+router.post("/api/google/login", loginRoute.googleLogin);
 
 // ================== Define the routes ===================
 // Student

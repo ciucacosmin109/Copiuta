@@ -1,4 +1,4 @@
-import axios from './Axios' 
+import axios, { getRequestError } from './Axios' 
  
 const login = async (email, password) => {
     try{
@@ -11,12 +11,23 @@ const login = async (email, password) => {
             message: "Successfully logged in", 
             studId: res.data.studId 
         } 
-    }catch(err){ 
-        if(err.response.data.message){
-            return { ok: false, message: err.response.data.message }
-        }else{
-            return { ok: false, message: `Internal server error: ${err.response.status}` }
-        }
+    }catch(err){   
+        return getRequestError(err);
+    } 
+  
+}; 
+const googleLogin = async tokenId => {
+    try{
+        const res = await axios.post('/google/login', {  
+            tokenId: tokenId 
+        }); 
+        return { 
+            ok: true, 
+            message: "Successfully logged in using google", 
+            studId: res.data.studId 
+        } 
+    }catch(err){  
+        return getRequestError(err);
     } 
   
 }; 
@@ -24,12 +35,8 @@ const logout = async () => {
     try{
         const res = await axios.post('/logout', {});  
         return { ok: true, message: res.data.message } 
-    }catch(err){
-        if(err.response.data.message){
-            return { ok: false, message: err.response.data.message }
-        }else{
-            return { ok: false, message: `Internal server error: ${err.response.status}` }
-        }
+    }catch(err){  
+        return getRequestError(err);
     } 
 }; 
 const register = async (firstName, lastName, email, password) => {
@@ -41,17 +48,13 @@ const register = async (firstName, lastName, email, password) => {
             password: password
         }); 
         return { ok: true, message: res.data.message } 
-    }catch(err){
-        if(err.response.data.message){
-            return { ok: false, message: err.response.data.message }
-        }else{
-            return { ok: false, message: `Internal server error: ${err.response.status}` }
-        }
+    }catch(err){  
+        return getRequestError(err);
     } 
 }; 
 
 const isLoggedIn = () => {
     return document.cookie.includes("isLoggedIn");
 }  
-const Login = {login, logout, register, isLoggedIn};
+const Login = {login, googleLogin, logout, register, isLoggedIn};
 export default Login;

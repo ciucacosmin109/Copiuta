@@ -61,9 +61,10 @@ const addStudent = async (req, res) => {
         student.password = await bcrypt.hash(student.password , bcrypt.genSaltSync(5));
 
         const result = await models.Student.create(student);
-        if (result) { 
+        if (result) {  
             // Auto login
-            req.session.studId = result.id; 
+            req.session.studId = result.id;  
+            res.cookie('isLoggedIn', {}, { httpOnly: false });
 
             // Send request
             res.status(201).send({
@@ -87,13 +88,6 @@ const updateStudent = async (req, res) => {
         const student = req.body;  
 
         // o sa validez si o parola a.i. doar userul sa poata sa-si actualizeze contul
-        
-        if (await models.Student.findOne({ where: { email: student.email } })){ 
-            res.status(400).send({
-                message: "The provided email is already in the database"
-            });
-            return;
-        }
 
         if(student.password){
             student.password = await bcrypt.hash(student.password , bcrypt.genSaltSync(5));
@@ -108,7 +102,7 @@ const updateStudent = async (req, res) => {
             });
         } else {
             res.status(400).send({
-                message: "Error while trying to create the student"
+                message: "Error while trying to update the student"
             });
         } 
     }catch(err){
