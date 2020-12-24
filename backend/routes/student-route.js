@@ -20,7 +20,7 @@ const getAllStudentsByGroupId = async (req, res) => {
         res.status(500).send({message: err.message});
     }
 };
-
+ 
 const getAllStudents = async (req, res) => {
     try {
         const studs = await models.Student.findAll();
@@ -61,10 +61,15 @@ const addStudent = async (req, res) => {
         student.password = await bcrypt.hash(student.password , bcrypt.genSaltSync(5));
 
         const result = await models.Student.create(student);
-        if (result) {
+        if (result) { 
+            // Auto login
+            req.session.studId = result.id; 
+
+            // Send request
             res.status(201).send({
                 message: "Student created successfully",
                 newId: result.id,
+                studId: result.id
             });
         } else {
             res.status(400).send({

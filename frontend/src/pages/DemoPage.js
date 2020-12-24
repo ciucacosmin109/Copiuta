@@ -3,22 +3,12 @@ import { withRouter } from 'react-router-dom';
 
 import './DemoPage.css'
 
-import DemoComponent from '../components/DemoComponent'
-import Login from '../data/Login'
+import DemoComponent from '../components/DemoComponent' 
 import Tags from '../data/Tags'
 
 class DemoPage extends React.Component {
-  async componentDidMount(){ 
-    console.log(document.cookie.includes("isLoggedIn"))
-    const result = await Login.login("demo@demo.com", "demo"); 
-    //if(result.ok === true){
-      //console.log(result);
-      console.log(await Tags.getAllTags()); 
-      //console.log(await Login.logout());
-    //}else{
-      console.log("Hmmmmmm");
-    //}
-    
+  async componentDidMount(){    
+    console.log(await Tags.getAllTags());   
   }
   render() {
     const { match } = this.props; 

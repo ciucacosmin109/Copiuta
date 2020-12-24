@@ -5,9 +5,13 @@ import Login from './data/Login';
 
 import routes from './routes'
 
-class App extends React.Component { 
+class App extends React.Component {  
+  updatePrivateRoutes = () => {
+    this.setState({update: true});
+  }
+
   render() { 
-    const isLoggedIn = document.cookie.includes("isLoggedIn");
+    const isLoggedIn = Login.isLoggedIn();
     
     return (
       <Router>
@@ -17,6 +21,7 @@ class App extends React.Component {
               path={route.path} 
               exact={true} 
               isLoggedIn={route.private ? isLoggedIn : true}
+              updatePrivateRoutes = {this.updatePrivateRoutes}
               component={route.component} 
             />
           ))} 

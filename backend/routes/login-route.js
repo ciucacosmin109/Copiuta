@@ -10,10 +10,13 @@ const loginChecker = (req, res, next) => {
     if ( !req.session.studId && !config.login.unprotectedUrls.includes(req.originalUrl) ) {
         res.cookie('isLoggedIn', {}, { maxAge: 0, httpOnly: false });
         res.status(403).send({message: "You don't have access here. Please log in"});
-    }else { 
+    }else if(req.session.studId){ 
         res.cookie('isLoggedIn', {}, { httpOnly: false });
         next();
-    } 
+    }else{
+        res.cookie('isLoggedIn', {}, { maxAge: 0, httpOnly: false });
+        next();
+    }
 }
 
 // Routes

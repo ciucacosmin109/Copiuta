@@ -8,7 +8,7 @@ export class PrivateRoute extends React.Component{
         return(
             <Route {...rest} render={ props => (
                 rest.isLoggedIn
-                    ? <MyComponent {...props} />
+                    ? <MyComponent {...props} updatePrivateRoutes={rest.updatePrivateRoutes} />
                     : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
             )} />
         );
