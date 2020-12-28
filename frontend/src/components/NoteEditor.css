@@ -1,0 +1,17 @@
+#Marius2 {  
+    height: 100%;
+    padding: 1em; 
+}
+#Marius2 .note-form{
+    display: flex;
+    flex-direction: column;
+    height: 100%; 
+} 
+#Marius2 .note-form .text-editor{
+    flex: 1 1 auto; 
+}
+#Marius2 .disabled-text-button{
+    display: inline-block;
+    color: black;
+    margin: 10px 10px 10px 0px; 
+}

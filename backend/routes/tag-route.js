@@ -6,7 +6,11 @@ const getAllTags = async (req, res) => {
         where: { NoteId: req.params.noteId },
     });
 
-    res.status(200).send({result: tags});
+    if(tags){
+      res.status(200).send({ result: tags });
+    }else{
+      res.status(404).send({ message: "Not found" });
+    }
 
   }catch (err) {
     res.status(500).send({message: err.message});
@@ -19,7 +23,11 @@ const getTag = async (req, res) => {
       where: { id: req.params.id },
     });
 
-    res.status(200).send({result: tag});
+    if(tag){
+      res.status(200).send({ result: tag });
+    }else{
+      res.status(404).send({ message: "Not found" });
+    }
 
   } catch (err) {
     res.status(500).send({message: err.message});
@@ -55,7 +63,7 @@ const updateTag = async (req, res) => {
     });
     
     if (result) {
-      res.status(201).send({ message: "The Tag was updated"});
+      res.status(200).send({ message: "The Tag was updated"});
     }else {
       res.status(400).send({ message: "Error while updating the Tag" });
     }

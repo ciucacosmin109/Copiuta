@@ -7,7 +7,11 @@ const getAllNotesByCourseId = async (req, res) => {
       where: { CourseId: req.params.courseId },
     });
 
-    res.status(200).send({ result: notes });
+    if(notes){
+      res.status(200).send({ result: notes });
+    }else{
+      res.status(404).send({ message: "Not found" });
+    }
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
@@ -26,7 +30,11 @@ const getAllNotesByGroupId = async (req, res) => {
       },
     });
 
-    res.status(200).send({ result: notes });
+    if(notes){
+      res.status(200).send({ result: notes });
+    }else{
+      res.status(404).send({ message: "Not found" });
+    }
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
@@ -37,8 +45,11 @@ const getNote = async (req, res) => {
     const note = await models.Note.findOne({
       where: { id: req.params.id }
     });
-
-    res.status(200).send({ result: note });
+    if(note){
+      res.status(200).send({ result: note });
+    }else{
+      res.status(404).send({ message: "Not found" });
+    }
   } catch (err) {
     res.status(500).send({ message: err.message });
   }

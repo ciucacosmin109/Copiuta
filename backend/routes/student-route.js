@@ -15,7 +15,11 @@ const getAllStudentsByGroupId = async (req, res) => {
             }
         });
     
-        res.status(200).send({result: studs});
+        if(studs){
+            res.status(200).send({ result: studs });
+        }else{
+            res.status(404).send({ message: "Not found" });
+        }
     } catch (err) {
         res.status(500).send({message: err.message});
     }
@@ -25,7 +29,11 @@ const getAllStudents = async (req, res) => {
     try {
         const studs = await models.Student.findAll();
     
-        res.status(200).send({result: studs});
+        if(studs){
+            res.status(200).send({ result: studs });
+        }else{
+            res.status(404).send({ message: "Not found" });
+        }
     } catch (err) {
         res.status(500).send({message: err.message});
     }
@@ -36,7 +44,11 @@ const getStudent = async (req, res) => {
           where: { id: req.params.id },
         });
     
-        res.status(200).send({result: stud});
+        if(stud){
+            res.status(200).send({ result: stud });
+        }else{
+            res.status(404).send({ message: "Not found" });
+        }
     
     } catch (err) {
         res.status(500).send({message: err.message});
@@ -85,11 +97,17 @@ const addStudent = async (req, res) => {
 };
 const updateStudent = async (req, res) => {
     try{ 
-        const student = req.body;  
+        const student = req.body; 
+        student.id = req.params.id;
 
-        // o sa validez si o parola a.i. doar userul sa poata sa-si actualizeze contul
+        // Validare
+        if(req.params.id !== req.session.studId){
+            res.status(400).send({
+                message: "You are not logged in as the student you are trying to update"
+            });
+        }
 
-        if(student.password){
+        if(student.password && student.password !== 'external'){
             student.password = await bcrypt.hash(student.password , bcrypt.genSaltSync(5));
         }
 
@@ -97,7 +115,7 @@ const updateStudent = async (req, res) => {
             where: {id: req.params.id}
         });
         if (result) {
-            res.status(201).send({
+            res.status(200).send({
                 message: "Student updated successfully"
             });
         } else {
@@ -113,8 +131,12 @@ const updateStudent = async (req, res) => {
 };
 const deleteStudent = async (req, res) => {  
     try {
-    
-        // o sa validez si o parola a.i. doar userul sa poata sa-si actualizeze contul
+        // Validare
+        if(req.params.id !== req.session.studId){
+            res.status(400).send({
+                message: "You are not logged in as the student you are trying to delete"
+            });
+        }
 
         let attachedCourses = await models.Course.findAll({
             where: { StudentId: req.params.id },

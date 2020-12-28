@@ -13,7 +13,11 @@ const getAllLinks = async (req, res) => {
       where: { NoteId: req.params.noteId },
     });
 
-    res.status(200).send({result: links});
+    if(links){
+      res.status(200).send({ result: links });
+    }else{
+      res.status(404).send({ message: "Not found" });
+    }
   } catch (err) {
     res.status(500).send({message: err.message});
   }
@@ -24,7 +28,11 @@ const getLink = async (req, res) => {
       where: { id: req.params.id },
     });
 
-    res.status(200).send({result: link});
+    if(link){
+      res.status(200).send({ result: link });
+    }else{
+      res.status(404).send({ message: "Not found" });
+    }
   } catch (err) {
     res.status(500).send({message: err.message});
   }
@@ -54,7 +62,7 @@ const updateLink = async (req, res) => {
       where: { id: req.params.id }
     });
     if (result) {
-      res.status(201).send({ message: "The link was updated"});
+      res.status(200).send({ message: "The link was updated"});
     }else {
       res.status(400).send({ message: "Error while updating the link" });
     }

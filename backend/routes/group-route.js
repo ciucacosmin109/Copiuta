@@ -14,8 +14,12 @@ const getAllGroupsByStudentId = async (req, res) => {
           id: {[Op.or]: studXGroup.map(x => x.GroupId)}
       }
     });
-
-    res.status(200).send({ result: groups });
+ 
+    if(groups){
+      res.status(200).send({ result: groups });
+    }else{
+      res.status(404).send({ message: "Not found" });
+    }
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
@@ -35,7 +39,11 @@ const getAllGroupsByNoteId = async (req, res) => {
       }
     });
  
-    res.status(200).send({ result: groups });
+    if(groups){
+      res.status(200).send({ result: groups });
+    }else{
+      res.status(404).send({ message: "Not found" });
+    }
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
@@ -48,7 +56,11 @@ const getGroup = async (req, res) => {
       where: { id: req.params.id }
     });
 
-    res.status(200).send({ result: group });
+    if(group){
+      res.status(200).send({ result: group });
+    }else{
+      res.status(404).send({ message: "Not found" });
+    }
   }catch(err){
     res.status(500).send({message: err.message});
   }

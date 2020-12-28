@@ -11,7 +11,7 @@ module.exports = (database, dataTypes) => {
             type:dataTypes.STRING
         },
         content:{ 
-            type:dataTypes.TEXT
+            type:dataTypes.TEXT('long')
         } 
     });
 }; 

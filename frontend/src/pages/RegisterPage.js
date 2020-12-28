@@ -67,7 +67,7 @@ class RegisterPage extends React.Component {
 
         const { firstName, lastName, email, password, passwordConfirmed } = this.state;
 
-        // stop here if form is empty or invalid
+        // Stop here if the form is empty or invalid
         if (!firstName || !lastName || !email || !password || !passwordConfirmed) {
             return;
         }
@@ -78,6 +78,7 @@ class RegisterPage extends React.Component {
             return;
         }
 
+        // Make the API request
         this.setState({ loading: true });
         Login.register(firstName, lastName, email, password).then(res => {
             if(res.ok){

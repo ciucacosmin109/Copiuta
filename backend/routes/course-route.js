@@ -6,8 +6,12 @@ const getAllCourses = async (req, res) => {
     const courses = await models.Course.findAll({
         where: { StudentId: req.params.studentId },
     });
-
-    res.status(200).send({result: courses});
+ 
+    if(courses){
+      res.status(200).send({ result: courses });
+    }else{
+      res.status(404).send({ message: "Not found" });
+    }
 
   }catch (err) {
     res.status(500).send({message: err.message});
@@ -20,7 +24,11 @@ const getCourse = async (req, res) => {
       where: { id: req.params.id },
     });
 
-    res.status(200).send({result: course});
+    if(course){
+      res.status(200).send({ result: course });
+    }else{
+      res.status(404).send({ message: "Not found" });
+    }
 
   } catch (err) {
     res.status(500).send({message: err.message});
@@ -56,7 +64,7 @@ const updateCourse = async (req, res) => {
     });
     
     if (result) {
-      res.status(201).send({ message: "The Course was updated"});
+      res.status(200).send({ message: "The Course was updated"});
     }else {
       res.status(400).send({ message: "Error while updating the Course" });
     }
