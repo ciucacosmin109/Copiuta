@@ -7,7 +7,7 @@ const getAllCourses = async (req, res) => {
         where: { StudentId: req.params.studentId },
     });
  
-    if(courses){
+    if(courses && courses.length > 0){
       res.status(200).send({ result: courses });
     }else{
       res.status(404).send({ message: "Not found" });

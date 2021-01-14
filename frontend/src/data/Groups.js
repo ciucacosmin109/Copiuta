@@ -1,57 +1,57 @@
 import axios, { getRequestError } from './Axios' 
 
-const getAllNotesByCourseId = async (studId) => { 
+const getAllGroupsByStudentId = async (studId) => { 
     try{
-        const res = await axios.get('/course/note/' + studId);  
+        const res = await axios.get('/student/group/getAll/' + studId);  
         return { ok: true, result: res.data.result} 
     }catch(err){   
         return getRequestError(err);
     }  
 };
-const getAllNotesByGroupId = async (groupId) => { 
+const getAllGroupsByNoteId = async (noteId) => { 
     try{
-        const res = await axios.get('/group/note/' + groupId);  
-        return { ok: true, result: res.data.result} 
-    }catch(err){   
-        return getRequestError(err);
-    }  
-};
-
-const getNote = async (id) => {
-    try{
-        const res = await axios.get('/note/get/' + id);  
+        const res = await axios.get('/note/group/getAll/' + noteId);  
         return { ok: true, result: res.data.result} 
     }catch(err){   
         return getRequestError(err);
     }  
 };
 
-const addNote = async (courseId, note) => {
+const getGroup = async (id) => {
     try{
-        const res = await axios.post('/note/add/' + courseId, note);  
+        const res = await axios.get('/group/get/' + id);  
+        return { ok: true, result: res.data.result} 
+    }catch(err){   
+        return getRequestError(err);
+    }  
+};
+
+const addGroup = async (adminId, group) => {
+    try{
+        const res = await axios.post('/group/add/' + adminId, group);  
         return { ok: true, message: res.data.message} 
     }catch(err){   
         return getRequestError(err);
     }  
 };
 
-const updateNote = async (id, note) => {
+const updateGroup = async (id, group) => {
     try{
-        const res = await axios.put('/note/update/' + id, note);  
+        const res = await axios.put('/group/update/' + id, group);  
         return { ok: true, message: res.data.message} 
     }catch(err){   
         return getRequestError(err);
     }  
 };
 
-const deleteNote = async (id) => {
+const deleteGroup = async (id) => {
     try{
-        const res = await axios.delete('/note/delete/' + id);  
+        const res = await axios.delete('/group/delete/' + id);  
         return { ok: true, message: res.data.message} 
     }catch(err){   
         return getRequestError(err);
     }  
 }; 
 
-const Notes = {getAllNotesByCourseId, getAllNotesByGroupId, getNote, addNote, updateNote, deleteNote};
-export default Notes;
+const Groups = {getAllGroupsByStudentId, getAllGroupsByNoteId, getGroup, addGroup, updateGroup, deleteGroup};
+export default Groups;

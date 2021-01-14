@@ -3,9 +3,12 @@ import { BrowserRouter as Router, Switch/*, Route*/ } from 'react-router-dom'
 import { PrivateRoute } from './components/PrivateRoute';
 import Login from './data/Login';
 
+import NavMenu from './components/NavMenu';
+
 import routes from './routes'
 
 class App extends React.Component {  
+  
   updatePrivateRoutes = () => {
     this.setState({update: true});
   }
@@ -14,16 +17,17 @@ class App extends React.Component {
     const isLoggedIn = Login.isLoggedIn();
     
     return (
-      <Router>
+      <Router> 
         <Switch>
-          {routes.map((route, index) => ( 
+          {routes.map((route, index) => (  
             <PrivateRoute key={index} 
               path={route.path} 
               exact={true} 
+              navbar={route.navbar}
               isLoggedIn={route.private ? isLoggedIn : true}
               updatePrivateRoutes = {this.updatePrivateRoutes}
               component={route.component} 
-            />
+            /> 
           ))} 
         </Switch>
       </Router>

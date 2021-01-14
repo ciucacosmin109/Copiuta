@@ -6,7 +6,7 @@ const getAllTags = async (req, res) => {
         where: { NoteId: req.params.noteId },
     });
 
-    if(tags){
+    if(tags && tags.length > 0){
       res.status(200).send({ result: tags });
     }else{
       res.status(404).send({ message: "Not found" });

@@ -1,49 +1,49 @@
 import axios, { getRequestError } from './Axios' 
 
-const getAllTags = async (noteId) => { 
+const getAllStudents = async () => { 
     try{
-        const res = await axios.get('/tag/getAll/' + noteId);  
+        const res = await axios.get('/student/getAll');  
         return { ok: true, result: res.data.result} 
     }catch(err){   
         return getRequestError(err);
     }  
 };
 
-const getTag = async (id) => {
+const getStudent = async (id) => {
     try{
-        const res = await axios.get('/tag/get/' + id);  
+        const res = await axios.get('/student/get/' + id);  
         return { ok: true, result: res.data.result} 
     }catch(err){   
         return getRequestError(err);
     }  
 };
 
-const addTag = async (noteId, tag) => {
+const addStudent = async (student) => {
     try{
-        const res = await axios.post('/tag/add/' + noteId, tag);  
+        const res = await axios.post('/student/add', student);  
         return { ok: true, message: res.data.message} 
     }catch(err){   
         return getRequestError(err);
     }  
 };
 
-const updateTag = async (id, tag) => {
+const updateStudent = async (id, student) => {
     try{
-        const res = await axios.put('/tag/update/' + id, tag);  
+        const res = await axios.put('/student/update/' + id, student);  
         return { ok: true, message: res.data.message} 
     }catch(err){   
         return getRequestError(err);
     }  
 };
 
-const deletetag = async (id) => {
+const deleteStudent = async (id) => {
     try{
-        const res = await axios.delete('/tag/delete/' + id);  
+        const res = await axios.delete('/student/delete/' + id);  
         return { ok: true, message: res.data.message} 
     }catch(err){   
         return getRequestError(err);
     }  
 }; 
 
-const Tags = {getAllTags, getTag, addTag, updateTag, deletetag};
-export default Tags;
+const Studs = {getAllStudents, getStudent, addStudent, updateStudent, deleteStudent};
+export default Studs;

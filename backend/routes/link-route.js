@@ -13,7 +13,7 @@ const getAllLinks = async (req, res) => {
       where: { NoteId: req.params.noteId },
     });
 
-    if(links){
+    if(links && links.length > 0){
       res.status(200).send({ result: links });
     }else{
       res.status(404).send({ message: "Not found" });

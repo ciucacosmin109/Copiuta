@@ -15,7 +15,7 @@ const getAllGroupsByStudentId = async (req, res) => {
       }
     });
  
-    if(groups){
+    if(groups && groups.length > 0){
       res.status(200).send({ result: groups });
     }else{
       res.status(404).send({ message: "Not found" });
@@ -39,7 +39,7 @@ const getAllGroupsByNoteId = async (req, res) => {
       }
     });
  
-    if(groups){
+    if(groups && groups.length > 0){
       res.status(200).send({ result: groups });
     }else{
       res.status(404).send({ message: "Not found" });

@@ -15,7 +15,7 @@ const getAllStudentsByGroupId = async (req, res) => {
             }
         });
     
-        if(studs){
+        if(studs && studs.length > 0){
             res.status(200).send({ result: studs });
         }else{
             res.status(404).send({ message: "Not found" });
@@ -29,7 +29,7 @@ const getAllStudents = async (req, res) => {
     try {
         const studs = await models.Student.findAll();
     
-        if(studs){
+        if(studs && studs.length > 0){
             res.status(200).send({ result: studs });
         }else{
             res.status(404).send({ message: "Not found" });

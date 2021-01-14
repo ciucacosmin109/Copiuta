@@ -61,8 +61,9 @@ const isLoggedIn = async (req, res) => {
         if (req.session.studId) {
             const stud = await models.Student.findOne({ where: { id: req.session.studId } });
             if(stud){
-                res.status(200).send({result: true, studId: req.session.studId});
+                res.status(200).send({result: true, studId: req.session.studId, stud: stud});
             }else{
+                req.session.destroy();
                 res.status(200).send({result: false, message: "The user does not exists"});
             }
         }else{

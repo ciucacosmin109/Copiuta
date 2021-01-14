@@ -7,7 +7,7 @@ const getAllNotesByCourseId = async (req, res) => {
       where: { CourseId: req.params.courseId },
     });
 
-    if(notes){
+    if(notes && notes.length > 0){
       res.status(200).send({ result: notes });
     }else{
       res.status(404).send({ message: "Not found" });
@@ -30,7 +30,7 @@ const getAllNotesByGroupId = async (req, res) => {
       },
     });
 
-    if(notes){
+    if(notes && notes.length > 0){
       res.status(200).send({ result: notes });
     }else{
       res.status(404).send({ message: "Not found" });

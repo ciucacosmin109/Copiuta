@@ -33,7 +33,8 @@ router.put("/api/student/update/:id", studentRoute.updateStudent);
 router.delete("/api/student/delete/:id", studentRoute.deleteStudent);//
 
 // Course
-router.get("/api/course/getAll/:studentId", courseRoute.getAllCourses);
+router.get("/api/student/course/getAll/:studentId", courseRoute.getAllCourses);
+
 router.get("/api/course/get/:id", courseRoute.getCourse); 
 router.post("/api/course/add/:studentId", courseRoute.addCourse);
 router.put("/api/course/update/:id", courseRoute.updateCourse);

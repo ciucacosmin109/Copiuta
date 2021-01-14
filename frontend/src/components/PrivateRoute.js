@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import NavMenu from './NavMenu';
 
 export class PrivateRoute extends React.Component{  
     render(){ 
@@ -8,8 +9,10 @@ export class PrivateRoute extends React.Component{
         return(
             <Route {...rest} render={ props => (
                 rest.isLoggedIn
-                    ? <MyComponent {...props} updatePrivateRoutes={rest.updatePrivateRoutes} />
-                    : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+                    ? <>
+                        {rest.navbar ? <NavMenu/> : <></>} 
+                        <MyComponent {...props} updatePrivateRoutes={rest.updatePrivateRoutes} />
+                    </> : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
             )} />
         );
     }

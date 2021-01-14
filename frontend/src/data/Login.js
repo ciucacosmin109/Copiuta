@@ -53,8 +53,20 @@ const register = async (firstName, lastName, email, password) => {
     } 
 }; 
 
+const getCurrentLoggedIn = async () => { 
+    try{
+        const res = await axios.get('/isLoggedIn');   
+        return { 
+            ok: res.data.result, 
+            stud: res.data.stud 
+        } 
+    }catch(err){   
+        return getRequestError(err);
+    } 
+}
+
 const isLoggedIn = () => {
     return document.cookie.includes("isLoggedIn");
 }  
-const Login = {login, googleLogin, logout, register, isLoggedIn};
+const Login = {login, googleLogin, logout, register, getCurrentLoggedIn, isLoggedIn};
 export default Login;
