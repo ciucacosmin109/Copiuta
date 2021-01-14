@@ -93,7 +93,7 @@ class LoginPage extends React.Component {
         });
     }
     handleGoogleLoginFailure = googleData => {
-        console.log('error',googleData)
+        console.log('error', googleData)
     }
 
     render() { 

@@ -33,7 +33,8 @@ const googleLogin = async tokenId => {
 }; 
 const logout = async () => {
     try{
-        const res = await axios.post('/logout', {});  
+        const res = await axios.post('/logout', {}); 
+        
         return { ok: true, message: res.data.message } 
     }catch(err){  
         return getRequestError(err);

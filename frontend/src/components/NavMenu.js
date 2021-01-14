@@ -10,20 +10,27 @@ export default class NavMenu extends Component {
         super(props);
  
         this.state = {
-            accountName: "Student"
+            accountName: "Student",
+            studId: "id"
         };
     } 
     componentDidMount(){
         Login.getCurrentLoggedIn().then(res => {
             if(res.ok){
                 this.setState({
-                    accountName: res.stud.firstName + " " + res.stud.lastName
+                    accountName: res.stud.firstName + " " + res.stud.lastName,
+                    studId: res.stud.id
                 });
             }
         });
     }
+    logout = async () => {
+        await Login.logout();  
+        window.history.pushState({previousUrl: window.location.pathname}, "", "/login"); 
+        window.location.reload();
+    }
 
-    renderItems() {
+    renderItems = () => {
         return ( 
             <Nav className="mr-auto">
                 <Nav.Link
@@ -43,10 +50,10 @@ export default class NavMenu extends Component {
                     <Navbar.Collapse id="responsive-navbar-nav"> 
                         {this.renderItems()}
                         <Nav>
-                            <NavDropdown title={this.state.accountName} id="collasible-nav-dropdown">
-                                <NavDropdown.Item href="/student/id">Account details</NavDropdown.Item> 
+                            <NavDropdown alignRight title={this.state.accountName} id="collasible-nav-dropdown">
+                                <NavDropdown.Item href={"/student/" + this.state.studId}>Account</NavDropdown.Item> 
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href="/logout">Log out</NavDropdown.Item>
+                                <NavDropdown.Item onClick={this.logout}>Log out</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
                     </Navbar.Collapse>

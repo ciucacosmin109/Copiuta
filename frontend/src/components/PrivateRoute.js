@@ -10,7 +10,7 @@ export class PrivateRoute extends React.Component{
             <Route {...rest} render={ props => (
                 rest.isLoggedIn
                     ? <>
-                        {rest.navbar ? <NavMenu/> : <></>} 
+                        {rest.navbar ? <NavMenu updatePrivateRoutes={rest.updatePrivateRoutes}/> : <></>} 
                         <MyComponent {...props} updatePrivateRoutes={rest.updatePrivateRoutes} />
                     </> : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
             )} />
