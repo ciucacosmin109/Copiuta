@@ -2,9 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch/*, Route*/ } from 'react-router-dom'
 import { PrivateRoute } from './components/PrivateRoute';
 import Login from './data/Login';
-
-import NavMenu from './components/NavMenu';
-
+  
 import routes from './routes'
 
 class App extends React.Component {  

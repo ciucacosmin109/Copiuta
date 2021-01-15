@@ -1,0 +1,9 @@
+.CourseEditor .card{
+    margin-bottom: 15px;
+} 
+.CourseEditor .card-header, .CourseEditor .card-body{
+    padding: 0;
+} 
+.CourseEditor .button-right{
+    float: right;
+}

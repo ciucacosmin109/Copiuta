@@ -1,0 +1,23 @@
+
+.HomePage .button-right {
+    float: right;  
+} 
+.HomePage .card-title {
+    display: inline-block;
+    margin: 4px;
+}
+
+/* Grid */
+.HomePage {
+    display: flex;
+}
+.HomePage > .flex-col {
+    flex: 1; 
+    margin: 15px;
+} 
+  
+@media (max-width: 900px) {
+    .HomePage {
+        display: block;
+    } 
+}

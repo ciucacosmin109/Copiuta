@@ -113,16 +113,16 @@ const updateGroup = async (req, res) => {
 //===============stergere grup====================== ||functioneaza
 const deleteGroup = async (req, res) => {
   try {
-    const resSXG = await models.StudentXGroup.destroy({
+    await models.StudentXGroup.destroy({
       where: { GroupId: req.params.id }
     });
-    const resGXN = await models.GroupXNote.destroy({
+    await models.GroupXNote.destroy({
       where: { GroupId: req.params.id }
     });
     const result = await models.Group.destroy({
       where: { id: req.params.id }
     });
-    if (resSXG && resGXN && result) {
+    if (result) {
       res.status(200).send({ message: "Grupul a fost sters" });
     } else {
       res.status(400).send({ message: "Ups, a aparut o eroare la stergerea grupului" });

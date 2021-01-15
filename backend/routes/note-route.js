@@ -93,13 +93,13 @@ const updateNote = async (req, res) => {
 //================Stergere notita de la un curs==================
 const deleteNote = async (req, res) => {
   try {
-    const resultTag = await models.Tag.destroy({
+    await models.Tag.destroy({
       where: { NoteId: req.params.id },
     });
-    const resultLink = await models.Link.destroy({
+    await models.Link.destroy({
       where: { NoteId: req.params.id },
     });
-    const resultGXN = await models.GroupXNote.destroy({
+    await models.GroupXNote.destroy({
         where: { NoteId: req.params.id }
     });
 
@@ -107,7 +107,7 @@ const deleteNote = async (req, res) => {
       where: { id: req.params.id },
     });
 
-    if (resultNote && resultTag && resultGXN && resultLink) {
+    if (resultNote) {
       res.status(200).send({ message: "The note was deleted" });
     } else {
       res.status(400).send({ message: "Error while deleting the note" });

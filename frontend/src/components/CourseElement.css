@@ -1,0 +1,9 @@
+.CourseElement{
+    margin-bottom: 5px;
+} 
+.CourseElement > .card-header, .CourseElement > .card-body{
+    padding: 0;
+} 
+.CourseElement .button-right{
+    float: right;
+}

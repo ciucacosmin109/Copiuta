@@ -2,7 +2,7 @@ import axios, { getRequestError } from './Axios'
 
 const getAllNotesByCourseId = async (studId) => { 
     try{
-        const res = await axios.get('/course/note/' + studId);  
+        const res = await axios.get('/course/note/getAll/' + studId);  
         return { ok: true, result: res.data.result} 
     }catch(err){   
         return getRequestError(err);
@@ -10,7 +10,7 @@ const getAllNotesByCourseId = async (studId) => {
 };
 const getAllNotesByGroupId = async (groupId) => { 
     try{
-        const res = await axios.get('/group/note/' + groupId);  
+        const res = await axios.get('/group/note/getAll/' + groupId);  
         return { ok: true, result: res.data.result} 
     }catch(err){   
         return getRequestError(err);
