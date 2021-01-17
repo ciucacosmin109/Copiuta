@@ -1,0 +1,9 @@
+.TagViewer .card{
+    margin-bottom: 15px;
+} 
+.TagViewer .card-header, .TagViewer .card-body{
+    padding: 0;
+} 
+.TagViewer .button-right{
+    float: right;
+}

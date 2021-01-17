@@ -42,7 +42,8 @@ router.delete("/api/course/delete/:id", courseRoute.deleteCourse);//
 
 // Note 
 router.get("/api/course/note/getAll/:courseId", noteRoute.getAllNotesByCourseId);
-router.get("/api/group/note/getAll/:groupId", noteRoute.getAllNotesByGroupId);//
+router.get("/api/group/note/getAll/:groupId", noteRoute.getAllNotesByGroupId);
+router.get("/api/tag/note/getAll/:tagName", noteRoute.getAllNotesByTagName);
 
 router.get("/api/note/get/:id", noteRoute.getNote);
 router.post("/api/note/add/:courseId", noteRoute.addNote);
@@ -61,6 +62,7 @@ router.get("/api/tag/get/:id", tagRoute.getTag);
 router.post("/api/tag/add/:noteId", tagRoute.addTag);
 router.put("/api/tag/update/:id", tagRoute.updateTag);
 router.delete("/api/tag/delete/:id", tagRoute.deleteTag);
+router.delete("/api/tag/deleteAll/:noteId", tagRoute.deleteAllTags);
 
 // Group
 router.get("/api/student/group/getAll/:studentId", groupRoute.getAllGroupsByStudentId);

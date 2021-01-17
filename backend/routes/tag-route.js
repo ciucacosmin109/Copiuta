@@ -80,5 +80,21 @@ const deleteTag = async (req, res) => {
     res.status(500).send({ message: err.message });
   }
 };
+const deleteAllTags = async (req, res) => {
+  try {
+    const resultTag = await models.Tag.destroy({
+      where: { NoteId: req.params.noteId }
+    })
 
-module.exports = { getAllTags, getTag, addTag, updateTag, deleteTag };
+    if (resultTag) {
+      res.status(200).send({ message: "The tags were deleted" });
+    } else {
+      res.status(400).send({ message: "Error while deleting the tags" });
+    }
+
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
+module.exports = { getAllTags, getTag, addTag, updateTag, deleteTag, deleteAllTags };

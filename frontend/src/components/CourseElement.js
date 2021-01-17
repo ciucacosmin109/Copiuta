@@ -108,6 +108,7 @@ class CourseElement extends React.Component {
                     <Collapse in={this.state.open}>
                         <Card.Body>
                             <NoteList
+                                emitter={this.props.emitter}
                                 courseId={this.props.course.id}
                                 onUpdated={this.noteListUpdated} />
                         </Card.Body>

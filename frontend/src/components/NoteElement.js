@@ -2,12 +2,14 @@ import React from 'react';
 import { withRouter } from 'react-router-dom'
 
 import { Button, Modal } from 'react-bootstrap';
-import { PencilSquare, Trash, Share } from 'react-bootstrap-icons';
+import { PencilSquare, Trash, Share, Tag } from 'react-bootstrap-icons';
 
 import Groups from '../data/Groups'
+import Tags from '../data/Tags'
 
 import './NoteElement.css';
 import ShareEditor from './ShareEditor';
+import TagViewer from './TagViewer';
 
 class NoteElement extends React.Component {
     constructor(props) {
@@ -15,27 +17,38 @@ class NoteElement extends React.Component {
 
         this.state = {
             groups: 0,
+            tags: [],
 
             loading: true,
             error: null,
 
-            modal: false,
-            modalLoading: true,
-            modalError: null
+            shareModal: false,
+            shareModalLoading: true,
+            shareModalError: null,
+
+            tagName: "-",
+            tagModal: false,
         };
+
     }
     async componentDidMount() {
-        await this.fetchGroupsInCommon();
+        await this.fetchData();
+        this.props.emitter.addListener('UPDATE', () => {
+            this.fetchData();
+        })
     }
-    fetchGroupsInCommon = async () => {
-        console.log("fetching")
-        if (!this.props.note.id) {
-            return;
-        }
+    fetchData = async () => {
+        // Common groups
         const res = await Groups.getAllGroupsByNoteId(this.props.note.id);
-
         if (!res.ok) {
             this.setState({ loading: false, error: "Groups(NoteId): " + res.message });
+            return;
+        }
+
+        // Tags
+        const res2 = await Tags.getAllTags(this.props.note.id);
+        if (!res2.ok) {
+            this.setState({ loading: false, error: "tags(NoteId): " + res2.message });
             return;
         }
 
@@ -43,16 +56,24 @@ class NoteElement extends React.Component {
             loading: false,
             error: null,
 
-            groups: res.result.length
+            groups: res.result.length,
+            tags: res2.result
         })
     }
 
     // Share modal 
-    showModal = () => {
-        this.setState({ modal: true });
+    showShareModal = () => {
+        this.setState({ shareModal: true });
     }
-    hideModal = () => {
-        this.setState({ modal: false });
+    hideShareModal = () => {
+        this.setState({ shareModal: false });
+    }
+    // Tag modal 
+    showTagModal = (name) => {
+        this.setState({ tagName: name, tagModal: true });
+    }
+    hideTagModal = () => {
+        this.setState({ tagModal: false });
     }
 
     // Note actions
@@ -63,22 +84,27 @@ class NoteElement extends React.Component {
         this.props.history.push((this.props.shared ? "../" : "") + "note/edit/" + this.props.note.id);
     }
     shareNote = () => {
-        this.showModal();
+        this.showShareModal();
+    }
+
+    // Tag viewer
+    viewNotesByTag = tag => {
+        this.showTagModal(tag.name);
     }
 
     // Note sharing  
-    modalSaved = groups => {
-        this.hideModal();
+    shareModalSaved = groups => {
+        this.hideShareModal();
         this.setState({ groups: groups.length });
 
         if (this.props.onUpdated)
             this.props.onUpdated(this.props.note.id, this.state.groups);
     }
-    modalFetched = res => {
+    shareModalFetched = res => {
         if (!res.ok) {
-            this.setState({ modalLoading: false, modalError: res.message });
+            this.setState({ shareModalLoading: false, shareModalError: res.message });
         } else {
-            this.setState({ modalLoading: false, modalError: null });
+            this.setState({ shareModalLoading: false, shareModalError: null });
         }
     }
 
@@ -103,6 +129,16 @@ class NoteElement extends React.Component {
         return (
             <div className="NoteElement">
                 <Button variant="link" size="sm" onClick={this.viewNote}>{this.props.note.title}</Button>
+                {!this.props.shared ? <> {
+                    this.state.tags.map((tag, index) =>
+                        <Button key={index} variant="link" size="sm" onClick={() => this.viewNotesByTag(tag)}>
+                            <Tag color="gray" />
+                            {tag.name}
+                        </Button>
+                    )} </>
+                    : <></>
+                }
+
 
                 {this.props.onDelete ?
                     <Button className="button-right" variant="link" size="sm" onClick={this.props.onDelete}><Trash color="#F54242" /></Button> : <></>
@@ -118,14 +154,26 @@ class NoteElement extends React.Component {
                 }
                 <span className="note-date">{noteDateTime[0]}<br />{noteDateTime[1]}</span>
 
-                <Modal show={this.state.modal} onHide={this.hideModal}>
+
+                <Modal show={this.state.shareModal} onHide={this.hideShareModal}>
                     <Modal.Header closeButton>
                         <Modal.Title>Sharing options</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <ShareEditor
                             note={this.props.note}
-                            onSaveFinished={this.modalSaved}
+                            onSaveFinished={this.shareModalSaved}
+                        />
+                    </Modal.Body>
+                </Modal>
+
+                <Modal show={this.state.tagModal} onHide={this.hideTagModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Tag viewer</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <TagViewer
+                            tagName={this.state.tagName}
                         />
                     </Modal.Body>
                 </Modal>

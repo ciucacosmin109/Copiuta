@@ -1,3 +1,4 @@
+import { EventEmitter } from 'fbemitter';
 import React from 'react';
 import { withRouter } from "react-router-dom";
 import Courses from '../data/Courses';
@@ -18,8 +19,10 @@ class CourseList extends React.Component {
 
         };
 
+        this.emitter = new EventEmitter();
+
         this.props.emitter.addListener('UPDATE', () => {
-            this.fetchCourses()
+            this.fetchCourses();
         })
     }
     async componentDidMount() {
@@ -39,11 +42,13 @@ class CourseList extends React.Component {
             error: null
         });
 
+        this.emitter.emit("UPDATE");
+
         if (this.props.onUpdated)
             this.props.onUpdated();
     }
 
-    deleteNote = async index => {
+    deleteCourse = async index => {
         const result = await Courses.deleteCourse(this.state.courses[index].id);
         if (result.ok) {
             this.setState({ courses: this.state.courses.filter((_, i) => i !== index) });
@@ -53,6 +58,8 @@ class CourseList extends React.Component {
         } else {
             this.setState({ error: result.message });
         }
+
+        this.props.emitter.emit('UPDATE');
     }
 
     render() {
@@ -63,8 +70,9 @@ class CourseList extends React.Component {
                     <CourseElement key={index}
                         course={elem}
                         showNotes
+                        emitter={this.emitter}
                         onUpdated={this.fetchCourses}
-                        onDelete={() => this.deleteNote(index)}
+                        onDelete={() => this.deleteCourse(index)}
                     />
                 )}
 

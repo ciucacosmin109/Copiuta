@@ -1,5 +1,6 @@
 import React from 'react';
 import Notes from '../data/Notes';
+import Tags from '../data/Tags';
 
 import { Editor as TinyMce } from '@tinymce/tinymce-react';
 import { Form, Button, Spinner, Col, Alert } from 'react-bootstrap';
@@ -21,7 +22,9 @@ class NoteEditor extends React.Component {
 
         this.state = {
             title: '',
-            content: ''
+            content: '',
+
+            tags: '',
         };
     }
     handleChange = e => {
@@ -48,6 +51,9 @@ class NoteEditor extends React.Component {
         if (!title || title.length === 0) {
             return;
         }
+        if (this.state.tags.length > 0 && !/^[a-zA-Z0-9\s]+$/.test(this.state.tags)) {
+            return;
+        }
 
         // Create the note object
         const note = {
@@ -58,28 +64,36 @@ class NoteEditor extends React.Component {
             note.id = this.props.noteId;
         }
 
+        // Create the tag list
+        let tags = this.state.tags.split(" ").filter(x => x.length > 0);
+
         // Call the callback
         if (this.props.onSaveClicked) {
-            this.props.onSaveClicked(note);
+            this.props.onSaveClicked(note, tags);
         }
     }
 
-    componentDidMount() {
-        if (!this.props.noteId) {
+    async componentDidMount() {
+        if (!this.props.noteId) return; // This is an add
+
+        // Fetch the note from the API
+        const res = await Notes.getNote(this.props.noteId);
+        if (!res.ok || !res.result) {
+            return
+        }
+
+        // Tags
+        const res2 = await Tags.getAllTags(this.props.noteId);
+        if (!res2.ok) {
             return;
         }
 
-        // Fetch the note from the API
-        Notes.getNote(this.props.noteId).then(res => {
-            if (res.ok) {
-                const note = res.result;
-                this.setState({ title: note.title, content: note.content });
-            }
+        const note = res.result;
+        this.setState({ title: note.title, content: note.content, tags: res2.result.map(x => x.name).join(" ") });
 
-            if (this.props.onNoteFetched) {
-                this.props.onNoteFetched(res);
-            }
-        });
+        if (this.props.onNoteFetched) {
+            this.props.onNoteFetched(res);
+        }
     }
 
     render() {
@@ -101,6 +115,20 @@ class NoteEditor extends React.Component {
 
                                 isInvalid={this.state.title == null || !(this.state.title.length > 0)}
                                 required
+                            />
+                        </Form.Group>
+                        <Form.Group as={Col} xs={3}>
+                            <Form.Control
+                                name="tags"
+                                value={this.state.tags}
+                                readOnly={!this.props.editable}
+                                onChange={this.handleChange}
+
+                                type="text"
+                                placeholder="Enter tags separated by space"
+                                disabled={!this.props.editable || this.props.loading}
+
+                                isInvalid={this.state.tags.length > 0 && !/^[a-zA-Z0-9\s]+$/.test(this.state.tags)}
                             />
                         </Form.Group>
                         <Form.Group as={Col} xs="auto">

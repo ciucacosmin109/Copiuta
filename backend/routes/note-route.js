@@ -31,6 +31,23 @@ const getAllNotesByGroupId = async (req, res) => {
     res.status(500).send({ message: err.message });
   }
 };
+const getAllNotesByTagName = async (req, res) => {
+  try {
+    const tags = await models.Tag.findAll({
+      where: { name: req.params.tagName }
+    });
+
+    const notes = await models.Note.findAll({
+      where: {
+        id: { [Op.in]: tags.map(x => x.NoteId) }
+      },
+    });
+    res.status(200).send({ result: notes });
+
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
 //===============Vizualizare notite pentru un id=================
 const getNote = async (req, res) => {
   try {
@@ -109,6 +126,7 @@ const deleteNote = async (req, res) => {
 module.exports = {
   getAllNotesByCourseId,
   getAllNotesByGroupId,
+  getAllNotesByTagName,
   getNote,
   addNote,
   updateNote,

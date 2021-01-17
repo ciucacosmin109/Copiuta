@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from "react-router-dom";
 import { ListGroup } from 'react-bootstrap';
+import { EventEmitter } from 'fbemitter'
 
 import Notes from '../data/Notes';
 import NoteElement from './NoteElement';
@@ -16,7 +17,12 @@ class NoteList extends React.Component {
             loading: true,
             error: null
         };
+        this.emitter = new EventEmitter();
 
+        if (this.props.emitter)
+            this.props.emitter.addListener('UPDATE', () => {
+                this.fetchNotes();
+            })
     }
     async componentDidMount() {
         await this.fetchNotes()
@@ -26,8 +32,10 @@ class NoteList extends React.Component {
         if (this.props.courseId) {
             notesRes = await Notes.getAllNotesByCourseId(this.props.courseId);
         } else if (this.props.groupId) {
-            //console.log("groupId: "+this.props.groupId)
             notesRes = await Notes.getAllNotesByGroupId(this.props.groupId);
+        } else if (this.props.tagName) {
+            notesRes = await Notes.getAllNotesByTagName(this.props.tagName);
+            console.log(notesRes)
         }
 
         if (notesRes === null) {
@@ -44,19 +52,29 @@ class NoteList extends React.Component {
             error: null,
 
             notes: notesRes.result
-        })
+        });
+        this.emitter.emit('UPDATE')
     }
 
     // Notes
     deleteNote = async index => {
-        const resR = await GroupNotes.removeNoteFromGroup(this.state.notes[index].id, this.props.groupId);
-        if (!resR.ok) {
-            this.setState({ modalError: resR.message });
-            return;
+        if (this.props.shared) {
+            const resR = await GroupNotes.removeNoteFromGroup(this.state.notes[index].id, this.props.groupId);
+            if (!resR.ok) {
+                this.setState({ modalError: resR.message });
+                return;
+            }
+        } else {
+            const resR = await Notes.deleteNote(this.state.notes[index].id);
+            if (!resR.ok) {
+                this.setState({ modalError: resR.message });
+                return;
+            }
         }
 
         this.setState({ notes: this.state.notes.filter((_, i) => i !== index) });
 
+        this.emitter.emit('UPDATE');
         if (this.props.onUpdated)
             this.props.onUpdated();
     }
@@ -69,6 +87,7 @@ class NoteList extends React.Component {
                     <ListGroup.Item key={index}>
                         <NoteElement
                             note={elem}
+                            emitter={this.emitter}
                             shared={this.props.shared}
                             onDelete={() => this.deleteNote(index)}
                         />

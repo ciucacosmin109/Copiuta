@@ -16,6 +16,14 @@ const getAllNotesByGroupId = async (groupId) => {
         return getRequestError(err);
     }
 };
+const getAllNotesByTagName = async (tagName) => {
+    try {
+        const res = await axios.get('/tag/note/getAll/' + tagName);
+        return { ok: true, result: res.data.result };
+    } catch (err) {
+        return getRequestError(err);
+    }
+}
 
 const getNote = async (id) => {
     try {
@@ -29,7 +37,7 @@ const getNote = async (id) => {
 const addNote = async (courseId, note) => {
     try {
         const res = await axios.post('/note/add/' + courseId, note);
-        return { ok: true, message: res.data.message }
+        return { ok: true, message: res.data.message, newId: res.data.newId }
     } catch (err) {
         return getRequestError(err);
     }
@@ -53,5 +61,5 @@ const deleteNote = async (id) => {
     }
 };
 
-const Notes = { getAllNotesByCourseId, getAllNotesByGroupId, getNote, addNote, updateNote, deleteNote };
+const Notes = { getAllNotesByCourseId, getAllNotesByGroupId, getAllNotesByTagName, getNote, addNote, updateNote, deleteNote };
 export default Notes;
