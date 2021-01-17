@@ -1,0 +1,22 @@
+.GroupMembersEditor .card{
+    margin-bottom: 15px;
+} 
+.GroupMembersEditor .card-header, .GroupMembersEditor .card-body{
+    padding: 0;
+} 
+.GroupMembersEditor .button-right{
+    float: right;
+}
+.GroupMembersEditor .nr-of-shares{
+    margin-right: 5px;
+}
+.GroupMembersEditor .note-date{ 
+    display: block;
+    float: right;
+    margin: 4px;
+    color: gray;
+    font-size: x-small;
+    margin: 0;
+    margin-right: 1em;
+    text-align: end;
+}

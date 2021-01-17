@@ -1,10 +1,16 @@
-.NoteElement > .button-right{
+.ShareEditor .card{
+    margin-bottom: 15px;
+} 
+.ShareEditor .card-header, .ShareEditor .card-body{
+    padding: 0;
+} 
+.ShareEditor .button-right{
     float: right;
 }
-.NoteElement .nr-of-shares{
+.ShareEditor .nr-of-shares{
     margin-right: 5px;
 }
-.NoteElement .note-date{ 
+.ShareEditor .note-date{ 
     display: block;
     float: right;
     margin: 4px;

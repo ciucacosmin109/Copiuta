@@ -1,23 +1,23 @@
 
-.HomePage .button-right {
+.CoursesPage .button-right {
     float: right;  
 } 
-.HomePage .card-title {
+.CoursesPage .card-title {
     display: inline-block;
     margin: 4px;
 }
 
 /* Grid */
-.HomePage {
+.CoursesPage {
     display: flex;
 }
-.HomePage > .flex-col {
+.CoursesPage > .flex-col {
     flex: 1; 
     margin: 15px;
 } 
   
 @media (max-width: 900px) {
-    .HomePage {
+    .CoursesPage {
         display: block;
     } 
 }

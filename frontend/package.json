@@ -9,6 +9,7 @@
     "@tinymce/tinymce-react": "^3.8.4",
     "axios": "^0.21.1",
     "bootstrap": "^4.5.3",
+    "fbemitter": "^3.0.0",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
     "react-bootstrap-icons": "^1.2.3",

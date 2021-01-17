@@ -12,42 +12,34 @@ const getAllLinks = async (req, res) => {
     const links = await models.Link.findAll({
       where: { NoteId: req.params.noteId },
     });
+    res.status(200).send({ result: links });
 
-    if(links && links.length > 0){
-      res.status(200).send({ result: links });
-    }else{
-      res.status(404).send({ message: "Not found" });
-    }
   } catch (err) {
-    res.status(500).send({message: err.message});
+    res.status(500).send({ message: err.message });
   }
 };
 const getLink = async (req, res) => {
-  try { 
+  try {
     const link = await models.Link.findOne({
       where: { id: req.params.id },
     });
+    res.status(200).send({ result: link });
 
-    if(link){
-      res.status(200).send({ result: link });
-    }else{
-      res.status(404).send({ message: "Not found" });
-    }
   } catch (err) {
-    res.status(500).send({message: err.message});
+    res.status(500).send({ message: err.message });
   }
 };
-const addLink = async (req, res) => { 
-  try { 
+const addLink = async (req, res) => {
+  try {
     let link = req.body;
     link.NoteId = req.params.noteId;
-    const result = await models.Link.create(link); 
+    const result = await models.Link.create(link);
     if (result) {
-      res.status(201).send({ 
-        message: "The link was created", 
+      res.status(201).send({
+        message: "The link was created",
         newId: result.id
       });
-    }else {
+    } else {
       res.status(400).send({ message: "Error while creating the link" });
     }
 
@@ -56,14 +48,14 @@ const addLink = async (req, res) => {
   }
 };
 const updateLink = async (req, res) => {
-  try { 
+  try {
     let link = req.body;
     const result = await models.Link.update(link, {
       where: { id: req.params.id }
     });
     if (result) {
-      res.status(200).send({ message: "The link was updated"});
-    }else {
+      res.status(200).send({ message: "The link was updated" });
+    } else {
       res.status(400).send({ message: "Error while updating the link" });
     }
 
@@ -76,9 +68,9 @@ const deleteLink = async (req, res) => {
     const result = await models.Link.destroy({
       where: { id: req.params.id }
     });
-    if(result){
-      res.status(200).send({ message: "The link was deleted"});
-    }else {
+    if (result) {
+      res.status(200).send({ message: "The link was deleted" });
+    } else {
       res.status(400).send({ message: "Error while deleting the link" });
     }
   } catch (err) {

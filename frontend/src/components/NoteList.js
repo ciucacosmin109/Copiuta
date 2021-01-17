@@ -4,8 +4,7 @@ import { ListGroup } from 'react-bootstrap';
 
 import Notes from '../data/Notes';
 import NoteElement from './NoteElement';
-
-import './NoteList.css';
+import GroupNotes from '../data/GroupNotes';
 
 class NoteList extends React.Component {
     constructor(props) {
@@ -27,6 +26,7 @@ class NoteList extends React.Component {
         if (this.props.courseId) {
             notesRes = await Notes.getAllNotesByCourseId(this.props.courseId);
         } else if (this.props.groupId) {
+            //console.log("groupId: "+this.props.groupId)
             notesRes = await Notes.getAllNotesByGroupId(this.props.groupId);
         }
 
@@ -49,12 +49,16 @@ class NoteList extends React.Component {
 
     // Notes
     deleteNote = async index => {
-        const result = await Notes.deleteNote(this.state.notes[index].id);
-        if (result.ok) {
-            this.setState({ notes: this.state.notes.filter((_, i) => i !== index) });
-        } else {
-            this.setState({ error: result.message });
+        const resR = await GroupNotes.removeNoteFromGroup(this.state.notes[index].id, this.props.groupId);
+        if (!resR.ok) {
+            this.setState({ modalError: resR.message });
+            return;
         }
+
+        this.setState({ notes: this.state.notes.filter((_, i) => i !== index) });
+
+        if (this.props.onUpdated)
+            this.props.onUpdated();
     }
 
     // Html
@@ -65,6 +69,7 @@ class NoteList extends React.Component {
                     <ListGroup.Item key={index}>
                         <NoteElement
                             note={elem}
+                            shared={this.props.shared}
                             onDelete={() => this.deleteNote(index)}
                         />
                     </ListGroup.Item>

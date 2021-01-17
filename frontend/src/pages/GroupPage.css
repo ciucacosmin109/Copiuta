@@ -1,0 +1,32 @@
+
+.GroupPage .button-right {
+    float: right;  
+} 
+.GroupPage .card-title {
+    display: inline-block;
+    margin: 4px;
+} 
+.GroupPage .card{
+    margin-bottom: 15px;
+} 
+.GroupPage .card-header-sm, .GroupPage .card-body-sm{
+    padding: 0;
+} 
+.GroupPage .button-right{
+    float: right;
+}
+
+/* Grid */
+.GroupPage {
+    display: flex;
+}
+.GroupPage > .flex-col {
+    flex: 1; 
+    margin: 15px;
+} 
+  
+@media (max-width: 900px) {
+    .GroupPage {
+        display: block;
+    } 
+}

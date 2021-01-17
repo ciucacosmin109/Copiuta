@@ -6,12 +6,8 @@ const getAllNotesByCourseId = async (req, res) => {
     const notes = await models.Note.findAll({
       where: { CourseId: req.params.courseId },
     });
+    res.status(200).send({ result: notes });
 
-    if(notes && notes.length > 0){
-      res.status(200).send({ result: notes });
-    }else{
-      res.status(404).send({ message: "Not found" });
-    }
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
@@ -25,31 +21,24 @@ const getAllNotesByGroupId = async (req, res) => {
     });
 
     const notes = await models.Note.findAll({
-      where: { 
-        id: {[Op.or]: groupXNote.map(x => x.NoteId)}
+      where: {
+        id: { [Op.in]: groupXNote.map(x => x.NoteId) }
       },
     });
+    res.status(200).send({ result: notes });
 
-    if(notes && notes.length > 0){
-      res.status(200).send({ result: notes });
-    }else{
-      res.status(404).send({ message: "Not found" });
-    }
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
 };
 //===============Vizualizare notite pentru un id=================
 const getNote = async (req, res) => {
-  try { 
+  try {
     const note = await models.Note.findOne({
       where: { id: req.params.id }
     });
-    if(note){
-      res.status(200).send({ result: note });
-    }else{
-      res.status(404).send({ message: "Not found" });
-    }
+    res.status(200).send({ result: note });
+
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
@@ -60,7 +49,7 @@ const addNote = async (req, res) => {
     let note = req.body;
     note.CourseId = req.params.courseId;
 
-    const result = await models.Note.create(note); 
+    const result = await models.Note.create(note);
     if (result) {
       res.status(201).send({
         message: "The note was successfully created",
@@ -89,7 +78,7 @@ const updateNote = async (req, res) => {
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
-};  
+};
 //================Stergere notita de la un curs==================
 const deleteNote = async (req, res) => {
   try {
@@ -100,7 +89,7 @@ const deleteNote = async (req, res) => {
       where: { NoteId: req.params.id },
     });
     await models.GroupXNote.destroy({
-        where: { NoteId: req.params.id }
+      where: { NoteId: req.params.id }
     });
 
     const resultNote = await models.Note.destroy({
@@ -122,6 +111,6 @@ module.exports = {
   getAllNotesByGroupId,
   getNote,
   addNote,
-  updateNote,  
+  updateNote,
   deleteNote,
 };

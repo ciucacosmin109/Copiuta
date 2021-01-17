@@ -5,21 +5,23 @@ const { database, models } = require("../database");
 const getAllGroupsByStudentId = async (req, res) => {
   try {
     const studXGroup = await models.StudentXGroup.findAll({
-        where: {StudentId: req.params.studentId},
-        attributes: ['GroupId']
+      where: { StudentId: req.params.studentId }
     })
- 
-    const groups = await models.Group.findAll({
-      where:{
-          id: {[Op.or]: studXGroup.map(x => x.GroupId)}
+
+    let groups = await models.Group.findAll({
+      where: {
+        id: { [Op.in]: studXGroup.map(x => x.GroupId) }
       }
     });
- 
-    if(groups && groups.length > 0){
-      res.status(200).send({ result: groups });
-    }else{
-      res.status(404).send({ message: "Not found" });
+    groups = groups.map(el => el.get({ plain: true }));
+
+    for (let i = 0; i < groups.length; i++) {
+      const rel = studXGroup.find(x => x.GroupId === groups[i].id);
+      groups[i].isAdmin = (rel && rel.isAdmin) ? true : false;
     }
+
+    res.status(200).send({ result: groups });
+
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
@@ -29,46 +31,38 @@ const getAllGroupsByStudentId = async (req, res) => {
 const getAllGroupsByNoteId = async (req, res) => {
   try {
     const groupXNote = await models.GroupXNote.findAll({
-        where: {NoteId: req.params.noteId},
-        attributes: ['GroupId']
+      where: { NoteId: req.params.noteId },
+      attributes: ['GroupId']
     })
- 
+
     const groups = await models.Group.findAll({
-      where:{
-          id: {[Op.or]: groupXNote.map(x => x.GroupId)}
+      where: {
+        id: { [Op.in]: groupXNote.map(x => x.GroupId) }
       }
     });
- 
-    if(groups && groups.length > 0){
-      res.status(200).send({ result: groups });
-    }else{
-      res.status(404).send({ message: "Not found" });
-    }
+    res.status(200).send({ result: groups });
+
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
 };
- 
+
 //=================Vizualizare grup dupa id===== ||functioneaza
 const getGroup = async (req, res) => {
-  try{
+  try {
     const group = await models.Group.findOne({
       where: { id: req.params.id }
     });
+    res.status(200).send({ result: group });
 
-    if(group){
-      res.status(200).send({ result: group });
-    }else{
-      res.status(404).send({ message: "Not found" });
-    }
-  }catch(err){
-    res.status(500).send({message: err.message});
+  } catch (err) {
+    res.status(500).send({ message: err.message });
   }
 };
 //=================Adauga grup================== ||functioneaza
 const addGroup = async (req, res) => {
-  try{
-    const group = req.body; 
+  try {
+    const group = req.body;
 
     const result = await models.Group.create(group);
     if (result) {
@@ -77,8 +71,8 @@ const addGroup = async (req, res) => {
         GroupId: result.id,
         isAdmin: true
       });
-      
-      if(resSXG){
+
+      if (resSXG) {
         res.status(201).send({
           message: "Grup creat cu succes",
           newId: result.id
@@ -89,8 +83,8 @@ const addGroup = async (req, res) => {
 
     res.status(400).send({ message: "Ups, eroare la crearea grupului" });
 
-  }catch(err){
-    res.status(500).send({message: err.message});
+  } catch (err) {
+    res.status(500).send({ message: err.message });
   }
 };
 //================Modificare grup=============== || functioneaza
@@ -130,6 +124,6 @@ const deleteGroup = async (req, res) => {
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
-}; 
+};
 
-module.exports = { getAllGroupsByStudentId, getAllGroupsByNoteId, getGroup, addGroup, updateGroup, deleteGroup};
+module.exports = { getAllGroupsByStudentId, getAllGroupsByNoteId, getGroup, addGroup, updateGroup, deleteGroup };

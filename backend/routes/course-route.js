@@ -5,12 +5,7 @@ const getAllCourses = async (req, res) => {
     const courses = await models.Course.findAll({
       where: { StudentId: req.params.studentId },
     });
-
-    if (courses && courses.length > 0) {
-      res.status(200).send({ result: courses });
-    } else {
-      res.status(404).send({ message: "Not found" });
-    }
+    res.status(200).send({ result: courses });
 
   } catch (err) {
     res.status(500).send({ message: err.message });
@@ -22,12 +17,7 @@ const getCourse = async (req, res) => {
     const course = await models.Course.findOne({
       where: { id: req.params.id },
     });
-
-    if (course) {
-      res.status(200).send({ result: course });
-    } else {
-      res.status(404).send({ message: "Not found" });
-    }
+    res.status(200).send({ result: course });
 
   } catch (err) {
     res.status(500).send({ message: err.message });

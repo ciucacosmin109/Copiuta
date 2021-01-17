@@ -1,0 +1,9 @@
+.GroupEditor .card{
+    margin-bottom: 15px;
+} 
+.GroupEditor .card-header, .GroupEditor .card-body{
+    padding: 0;
+} 
+.GroupEditor .button-right{
+    float: right;
+}

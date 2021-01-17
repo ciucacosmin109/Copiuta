@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from "react-router-dom";
 import Courses from '../data/Courses';
 
 import CourseElement from "./CourseElement"
@@ -17,12 +18,14 @@ class CourseList extends React.Component {
 
         };
 
+        this.props.emitter.addListener('UPDATE', () => {
+            this.fetchCourses()
+        })
     }
     async componentDidMount() {
         await this.fetchCourses();
     }
     fetchCourses = async () => {
-        console.log("fetching")
         const coursesRes = await Courses.getAllCoursesByStudentId(this.props.studId);
         if (!coursesRes.ok) {
             this.setState({ loading: false, error: "Courses: " + coursesRes.message });
@@ -34,13 +37,19 @@ class CourseList extends React.Component {
 
             loading: false,
             error: null
-        })
+        });
+
+        if (this.props.onUpdated)
+            this.props.onUpdated();
     }
 
     deleteNote = async index => {
         const result = await Courses.deleteCourse(this.state.courses[index].id);
         if (result.ok) {
             this.setState({ courses: this.state.courses.filter((_, i) => i !== index) });
+
+            if (this.props.onUpdated)
+                this.props.onUpdated();
         } else {
             this.setState({ error: result.message });
         }
@@ -54,7 +63,7 @@ class CourseList extends React.Component {
                     <CourseElement key={index}
                         course={elem}
                         showNotes
-                        onUpdate={this.fetchCourses}
+                        onUpdated={this.fetchCourses}
                         onDelete={() => this.deleteNote(index)}
                     />
                 )}
@@ -64,4 +73,4 @@ class CourseList extends React.Component {
     }
 }
 
-export default CourseList; 
+export default withRouter(CourseList); 

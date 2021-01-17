@@ -1,25 +1,25 @@
 const { Op } = require("sequelize");
 const { models } = require("../database");
- 
+
 const addNoteToGroup = async (req, res) => {
-    try{
-        let gn = req.body; 
-        const result = await models.GroupXNote.create(gn); 
+    try {
+        let gn = req.body;
+        const result = await models.GroupXNote.create(gn);
         if (result) {
-          res.status(201).send({ 
-            message: "The note was shared to the group", 
-            newId: result.id
-          });
-        }else {
-          res.status(400).send({ message: "Error while sharing the note to the group" });
+            res.status(201).send({
+                message: "The note was shared to the group",
+                newId: result.id
+            });
+        } else {
+            res.status(400).send({ message: "Error while sharing the note to the group" });
         }
-    }catch(err){
-        res.status(500).send({message: err.message});
+    } catch (err) {
+        res.status(500).send({ message: err.message });
     }
-}; 
+};
 const removeNoteFromGroup = async (req, res) => {
-    try{ 
-        let gn = req.body; 
+    try {
+        let gn = req.body;
         const result = await models.GroupXNote.destroy({
             where: {
                 [Op.and]: [
@@ -28,14 +28,31 @@ const removeNoteFromGroup = async (req, res) => {
                 ]
             }
         });
-        if(result){
-            res.status(200).send({ message: "The shared note was removed from the group"});
-        }else {
+        if (result) {
+            res.status(200).send({ message: "The shared note was removed from the group" });
+        } else {
             res.status(400).send({ message: "Error while removing the shared note from the group" });
         }
-    }catch(err){
-        res.status(500).send({message: err.message});
+    } catch (err) {
+        res.status(500).send({ message: err.message });
+    }
+};
+const removeNoteFromAllGroups = async (req, res) => {
+    try {
+        const noteId = req.params.noteId;
+        const result = await models.GroupXNote.destroy({
+            where: {
+                NoteId: noteId
+            }
+        });
+        if (result) {
+            res.status(200).send({ message: "The shared note was removed from the groups" });
+        } else {
+            res.status(400).send({ message: "Error while removing the shared note from the groups" });
+        }
+    } catch (err) {
+        res.status(500).send({ message: err.message });
     }
 };
 
-module.exports = { addNoteToGroup, removeNoteFromGroup };
+module.exports = { addNoteToGroup, removeNoteFromGroup, removeNoteFromAllGroups };

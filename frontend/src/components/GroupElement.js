@@ -2,15 +2,15 @@ import React from 'react';
 import { withRouter } from 'react-router-dom'
 
 import NoteList from './NoteList';
-import CourseEditor from './CourseEditor';
+import GroupEditor from './GroupEditor';
 
 import { Button, Card, Collapse, Modal } from 'react-bootstrap';
-import { PencilSquare, Trash, CaretDown, CaretUp, PlusSquare } from 'react-bootstrap-icons';
+import { PencilSquare, Trash, CaretDown, CaretUp } from 'react-bootstrap-icons';
 
-import './CourseElement.css';
-import Courses from '../data/Courses';
+import './GroupElement.css';
+import Groups from '../data/Groups';
 
-class CourseElement extends React.Component {
+class GroupElement extends React.Component {
     constructor(props) {
         super(props);
 
@@ -35,12 +35,11 @@ class CourseElement extends React.Component {
         this.setState({ modal: false });
     }
 
-    // Course
-    viewCourse = () => this.showModal(false);
-    editCourse = () => this.showModal(true);
-    addNoteToCourse = () => {
-        this.props.history.push("note/add/" + this.props.course.id);
+    // Group
+    viewGroup = () => {
+        this.props.history.push("/group/" + this.props.group.id)
     }
+    editGroup = () => this.showModal(true);
 
     noteListUpdated = () => {
         if (this.props.onUpdated)
@@ -48,10 +47,10 @@ class CourseElement extends React.Component {
     }
 
     // Modal
-    modalSave = async c => {
-        if (c && c.id) {
+    modalSave = async g => {
+        if (g && g.id) {
             // Do an update 
-            const res = await Courses.updateCourse(c.id, c);
+            const res = await Groups.updateGroup(g.id, g);
             if (!res.ok) {
                 this.setState({ modalError: res.message, modalLoading: false });
             } else this.setState({ modal: false });
@@ -68,7 +67,7 @@ class CourseElement extends React.Component {
         }
     }
 
-    // Html 
+    // Html
     dateToDMY = (isoDate) => {
         const date = new Date(isoDate)
 
@@ -85,30 +84,30 @@ class CourseElement extends React.Component {
         ];
     }
     render() {
-        const courseDateTime = this.dateToDMY(this.props.course.createdAt);
+        const groupDateTime = this.dateToDMY(this.props.group.createdAt);
         return (<>
-            <Card className="CourseElement" size="sm">
-                <Card.Header className="container-vertical-center">
-                    <Button variant="link" size="sm" onClick={this.viewCourse}>{this.props.course.name}</Button>
+            <Card className="GroupElement" size="sm">
+                <Card.Header>
+                    <Button variant="link" size="sm" onClick={this.viewGroup}>{this.props.group.name}</Button>
                     {this.props.showNotes ?
                         <Button variant="link" size="sm" onClick={this.toggleCollapse}>
                             {this.state.open ? <CaretUp color="gray" /> : <CaretDown color="gray" />}
                         </Button> : <></>
                     }
 
-                    {this.props.onDelete ?
+                    {this.props.onDelete && !this.props.readOnly ?
                         <Button className="button-right" variant="link" size="sm" onClick={this.props.onDelete}><Trash color="#F54242" /></Button> : <></>
                     }
-                    <Button className="button-right" variant="link" size="sm" onClick={this.editCourse}><PencilSquare color="gray" /></Button>
-                    <Button className="button-right" variant="link" size="sm" onClick={this.addNoteToCourse}><PlusSquare color="green" /></Button>
-
-                    <span className="vertical-center course-date">{courseDateTime[0] + " " + courseDateTime[1]}</span>
+                    {!this.props.readOnly ?
+                        <Button className="button-right" variant="link" size="sm" onClick={this.editGroup}><PencilSquare color="gray" /></Button> : <></>
+                    }
+                    <span className="vertical-center group-date">{groupDateTime[0] + " " + groupDateTime[1]}</span>
                 </Card.Header>
                 {this.props.showNotes ?
                     <Collapse in={this.state.open}>
                         <Card.Body>
                             <NoteList
-                                courseId={this.props.course.id}
+                                groupId={this.props.group.id}
                                 onUpdated={this.noteListUpdated} />
                         </Card.Body>
                     </Collapse> : <></>
@@ -117,15 +116,15 @@ class CourseElement extends React.Component {
 
             <Modal show={this.state.modal} onHide={this.hideModal}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{this.state.modalEdit ? "Edit course" : "View course"}</Modal.Title>
+                    <Modal.Title>{this.state.modalEdit ? "Edit group" : "View group"}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <CourseEditor
+                    <GroupEditor
                         editable={this.state.modalEdit}
-                        courseId={this.props.course.id}
+                        groupId={this.props.group.id}
 
                         onSaveClicked={this.modalSave}
-                        onCourseFetched={this.modalFetched}
+                        onGroupFetched={this.modalFetched}
 
                         error={this.state.modalError}
                         loading={this.state.modalLoading}
@@ -136,4 +135,4 @@ class CourseElement extends React.Component {
     }
 }
 
-export default withRouter(CourseElement); 
+export default withRouter(GroupElement); 

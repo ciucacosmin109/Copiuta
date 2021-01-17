@@ -1,14 +1,14 @@
-.CourseElement{
+.GroupElement{
     margin-bottom: 5px;
 } 
-.CourseElement > .card-header, .CourseElement > .card-body{
+.GroupElement > .card-header, .GroupElement > .card-body{
     padding: 0;
 } 
-.CourseElement .button-right{
+.GroupElement .button-right{
     float: right;
-} 
+}
 
-.CourseElement .course-date{ 
+.GroupElement .group-date{ 
     display: block;
     float: right;
     margin: 7px;

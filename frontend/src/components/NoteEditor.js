@@ -97,7 +97,7 @@ class NoteEditor extends React.Component {
 
                                 type="text"
                                 placeholder="Enter a title for your note"
-                                disabled={!this.props.editable || (this.props.loading ? true : false)}
+                                disabled={!this.props.editable || this.props.loading}
 
                                 isInvalid={this.state.title == null || !(this.state.title.length > 0)}
                                 required
@@ -130,7 +130,7 @@ class NoteEditor extends React.Component {
 
                     <TinyMce
                         className="text-editor"
-                        disabled={!this.props.editable || (this.props.loading ? true : false)}
+                        disabled={!this.props.editable}
                         apiKey="7atcogyb8kct4rdja6x79f3i8cks6o2uxuggklo3pynla4la"
                         init={{
                             height: "100%",

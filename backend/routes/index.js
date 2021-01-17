@@ -35,7 +35,7 @@ router.delete("/api/student/delete/:id", studentRoute.deleteStudent);//
 // Course
 router.get("/api/student/course/getAll/:studentId", courseRoute.getAllCourses);
 
-router.get("/api/course/get/:id", courseRoute.getCourse); 
+router.get("/api/course/get/:id", courseRoute.getCourse);
 router.post("/api/course/add/:studentId", courseRoute.addCourse);
 router.put("/api/course/update/:id", courseRoute.updateCourse);
 router.delete("/api/course/delete/:id", courseRoute.deleteCourse);//
@@ -46,13 +46,13 @@ router.get("/api/group/note/getAll/:groupId", noteRoute.getAllNotesByGroupId);//
 
 router.get("/api/note/get/:id", noteRoute.getNote);
 router.post("/api/note/add/:courseId", noteRoute.addNote);
-router.put("/api/note/update/:id", noteRoute.updateNote);  
+router.put("/api/note/update/:id", noteRoute.updateNote);
 router.delete("/api/note/delete/:id", noteRoute.deleteNote);//
 
 // Links & Tags
-router.get("/api/link/getAll/:noteId", linkRoute.getAllLinks); 
+router.get("/api/link/getAll/:noteId", linkRoute.getAllLinks);
 router.get("/api/link/get/:id", linkRoute.getLink);
-router.post("/api/link/add/:noteId", linkRoute.addLink); 
+router.post("/api/link/add/:noteId", linkRoute.addLink);
 router.put("/api/link/update/:id", linkRoute.updateLink);
 router.delete("/api/link/delete/:id", linkRoute.deleteLink);
 
@@ -65,19 +65,23 @@ router.delete("/api/tag/delete/:id", tagRoute.deleteTag);
 // Group
 router.get("/api/student/group/getAll/:studentId", groupRoute.getAllGroupsByStudentId);
 router.get("/api/note/group/getAll/:noteId", groupRoute.getAllGroupsByNoteId);
- 
+
 router.get("/api/group/get/:id", groupRoute.getGroup);
 router.post("/api/group/add/:adminId", groupRoute.addGroup);  //.....
 router.put("/api/group/update/:id", groupRoute.updateGroup);
 router.delete("/api/group/delete/:id", groupRoute.deleteGroup);
 
 // Group - Pentru a adauga stud la grupui sau pt a da share la notite in grupuri
-router.post("/api/studentXgroup/add", studentXgroupRoute.addStudentToGroup); 
-router.put("/api/studentXgroup/modify", studentXgroupRoute.modifyStudentOfGroup); 
-router.delete("/api/studentXgroup/remove", studentXgroupRoute.removeStudentFromGroup); 
+router.post("/api/studentXgroup/add", studentXgroupRoute.addStudentToGroup);
+router.put("/api/studentXgroup/modify", studentXgroupRoute.modifyStudentOfGroup);
+router.post("/api/studentXgroup/remove", studentXgroupRoute.removeStudentFromGroup);
 
-router.post("/api/groupXnote/add", groupXnoteRoute.addNoteToGroup); 
-router.delete("/api/groupXnote/remove", groupXnoteRoute.removeNoteFromGroup); 
+router.delete("/api/studentXgroup/removeFromAll/:studId", studentXgroupRoute.removeStudentFromAllGroups);
+router.delete("/api/studentXgroup/removeAllFromGroup/:groupId", studentXgroupRoute.removeAllStudentsFromGroup);
+
+router.post("/api/groupXnote/add", groupXnoteRoute.addNoteToGroup);
+router.post("/api/groupXnote/remove", groupXnoteRoute.removeNoteFromGroup);
+router.delete("/api/groupXnote/removeFromAll/:noteId", groupXnoteRoute.removeNoteFromAllGroups);
 
 
 module.exports = router;
