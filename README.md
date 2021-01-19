@@ -5,7 +5,7 @@
 
 # Mod de functionare
 ### Logare
-
+![schema](https://ibb.co/dLRZTJR)
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Studentii se logheaza in aplicatie folosind contul institutional ASE, concept introdus in aplicatie prin ***utilizarea protocolului stateless token***. E usor de configurat deoarece nu stocheaza credentiale etc. Se creaza un request catre endpoint-ul de login care primeste utilizatorul implicit, avand informatiile referitoare la autorizare (un username si o parola), iar daca acestea corespund cu ce exista in baza de date, se va emite un token cu adresa de email al utilizatorului. Tokenul pe care il trimitem se encodeaza cu ajutorul Base64. Payload si token logare (pt a arata principiul):
@@ -44,3 +44,4 @@ app.get("/api/sync", (req, res) => {
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In ce priveste rutele concepute, ele au validari legate de logare si sunt implementate in folderul "routes". Ruta din Note primeste ID de course si returneaza toate notitele cursului, asemeni unui grup, iar Tag aduce toate tagurile unei notite (si nu pe cele aferente bazei de date). Fiecare entitate are un fisier ce contine si exporta functiile rutelor. Entitatile de intersectie nu necesita endpointuri.. <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In final, notitele pot avea integrat continut audio-vizual si pot fi partajate cu alti colegi. Se observa cum functionalitatile prezentate aduc aminte de cele folosite in [StuDocu](https://www.studocu.com/ro) sau [Evernote](https://evernote.com/).
+
