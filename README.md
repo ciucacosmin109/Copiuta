@@ -18,6 +18,27 @@ app.get("/login", (req, res)=>{
     else{res.status(404).send("User not found!") }}
 ```
 
+### Activitati curente (curs/seminar)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Aplicația faciliteaza organizarea notitelor de catre student in functie de materiile la care  acesta participa si activitatile de studiu individual.
+![schema](https://i.ibb.co/yX4vpqm/Lista-Cursuri-UP.png)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fiecare student poate sa adauge, sa editeze, sa stearga si sa vizualizeze  notitele. Facilitati care simplifica organizarea  si monitorizarea acestora. In cazul editarii unei notite, pot fi adaugate si resurse externe cum ar fi imagini,link-uri,documente.
+![schema](https://i.ibb.co/kXqkFKz/Vizualizare-Notite.png)
+
+### Editarea notitelor
+ Crearea si modificarea notitelor se realizeaza cu ajutorul unui editor integrat, utilizarea caruia este pe cat se poate de simpla. In acelasi timp, acesta implementeaza un sistem de markdown pentru a realiza formatarea textului.
+![schema](https://i.ibb.co/7JgsjbC/Pagina-Editare-Notita.png)
+
+### Grup/Share
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Studentul  are posibilitatea de a partaja notite cu alti colegi, avand la baza un grup comun. Gruparea studentilor se realizeaza aleator, in functie de preferintele personale, astfel pot fi create echipe pentru proiecte sau serii  de facultate.
+![schema](https://i.ibb.co/hZxYTsn/Groups.png)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Partajarea notitelor se realizeaza  in felul urmator :
+![schema](https://i.ibb.co/mScWXYY/Share-Note-In-Grup.png)
+
+
 ### Baze de date
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
