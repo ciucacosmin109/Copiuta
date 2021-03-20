@@ -8,15 +8,7 @@
 ![schema](https://i.ibb.co/WPLChpL/Pagina-Logare.png)
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Studentii se logheaza in aplicatie folosind contul institutional ASE, concept introdus in aplicatie prin ***utilizarea protocolului stateless token***. E usor de configurat deoarece nu stocheaza credentiale etc. Se creaza un request catre endpoint-ul de login care primeste utilizatorul implicit, avand informatiile referitoare la autorizare (un username si o parola), iar daca acestea corespund cu ce exista in baza de date, se va emite un token cu adresa de email al utilizatorului. Tokenul pe care il trimitem se encodeaza cu ajutorul Base64. Payload si token logare (pt a arata principiul):
-
-```javascript
-app.get("/login", (req, res)=>{
-    if(req.query.email == user.email && req.query.password == user.password){
-        let payload = { email: user.email,  role: user.role }   let token = generateJwt(payload)
-        res.status(200).send({token: token}); }
-    else{res.status(404).send("User not found!") }}
-```
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Studentii se logheaza in aplicatie folosind contul institutional ASE, concept introdus in aplicatie prin ***utilizarea protocolului stateless token***. E usor de configurat deoarece nu stocheaza credentiale etc. Se creaza un request catre endpoint-ul de login care primeste utilizatorul implicit, avand informatiile referitoare la autorizare (un username si o parola), iar daca acestea corespund cu ce exista in baza de date, se va emite un token cu adresa de email al utilizatorului. Tokenul pe care il trimitem se encodeaza cu ajutorul Base64.
 
 ### Activitati curente (curs/seminar)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -42,15 +34,7 @@ app.get("/login", (req, res)=>{
 ### Baze de date
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Organizarea notitelor se poate face dupa materii, data, tag-uri, iar notitele pot fi adaugate, sterse si editate de student. Acest lucru este posibil prin utilizarea bazei de date relationale, impropriu numita astfel, ea fiind generata prin ***O/R Mapping folosind Sequelize***. Sincronizarea cu baza de date (principiu):
-
-```javascript
-app.get("/api/sync", (req, res) => { 
-    database.sync({ force: true })
-    .then(() => res.status(201).send("Sincronizare reusita cu baza de date!") )
-    .catch((error) => res.status(500).send(`Sincronizare nereusita. ${error}`) ); 
-}); 
-```
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Organizarea notitelor se poate face dupa materii, data, tag-uri, iar notitele pot fi adaugate, sterse si editate de student. Acest lucru este posibil prin utilizarea bazei de date relationale, impropriu numita astfel, ea fiind generata prin ***O/R Mapping folosind Sequelize***.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Entitatile de care dispunem sunt: Student, Course, Note, Group, StudentXGroup, GroupXNote, Link si Tag. Relatiile dintre acestea, in vederea realizarii functionalitatilor de care avem nevoie, sunt urmatoarele:
