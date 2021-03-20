@@ -15,6 +15,6 @@
         "unprotectedUrls": ["/api/login", "/api/logout", "/api/register", "/api/isLoggedIn", "/api/google/login"]
     },
     "googleLogin":{
-        "clientId": "304453425361-7ju1shqi39aad7eulr6606glb4jp30jp.apps.googleusercontent.com"
+        "clientId": "your-google-client-id"
     }
 }
