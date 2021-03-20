@@ -1,6 +1,6 @@
 {
     "backendAddress": "http://localhost:8000/api",
     "googleLogin":{
-        "clientId": "304453425361-7ju1shqi39aad7eulr6606glb4jp30jp.apps.googleusercontent.com"
+        "clientId": "your-google-client-id"
     }
 }
